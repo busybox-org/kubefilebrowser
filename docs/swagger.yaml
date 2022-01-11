@@ -1,0 +1,1311 @@
+basePath: /
+definitions:
+  handlers.JSONResult:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        type: object
+      message:
+        example: 消息
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Kubernetes FileBrowser
+  title: Kube-FileBrowser Swagger
+  version: "1.0"
+paths:
+  /api/filebrowser/createdir:
+    post:
+      description: 容器文件浏览器 - 创建目录
+      parameters:
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: CreateDir
+      tags:
+      - FileBrowser
+  /api/filebrowser/createfile:
+    post:
+      description: 容器文件浏览器 - 创建文件
+      parameters:
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - description: 内容
+        in: body
+        name: content
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: CreateFile
+      tags:
+      - FileBrowser
+  /api/filebrowser/list:
+    get:
+      description: 容器文件浏览器 - 文件列表
+      parameters:
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: ListFile
+      tags:
+      - FileBrowser
+  /api/filebrowser/open:
+    get:
+      description: 容器文件浏览器 - 打开文件
+      parameters:
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: OpenFile
+      tags:
+      - FileBrowser
+  /api/filebrowser/remove:
+    post:
+      description: 容器文件浏览器 - 删除
+      parameters:
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: Remove
+      tags:
+      - FileBrowser
+  /api/filebrowser/rename:
+    post:
+      description: 容器文件浏览器 - 重命名
+      parameters:
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: old_path
+        type: string
+      - in: query
+        name: path
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: Rename
+      tags:
+      - FileBrowser
+  /api/kubeapiproxy/download:
+    get:
+      consumes:
+      - application/json
+      description: 从容器下载到本地
+      parameters:
+      - in: query
+        name: container
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: dest_paths
+        required: true
+        type: array
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: style
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: dest_paths
+        required: true
+        type: array
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: style
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: dest_paths
+        required: true
+        type: array
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: style
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: dest_paths
+        required: true
+        type: array
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: style
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: dest_paths
+        required: true
+        type: array
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: style
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: Download
+      tags:
+      - Kubernetes Api Proxy
+  /api/kubeapiproxy/exec:
+    get:
+      description: 在pod的容器中执行
+      parameters:
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: commands
+        type: array
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: stderr
+        type: boolean
+      - in: query
+        name: stdout
+        type: boolean
+      - in: query
+        name: tty
+        type: boolean
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: commands
+        type: array
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: stderr
+        type: boolean
+      - in: query
+        name: stdout
+        type: boolean
+      - in: query
+        name: tty
+        type: boolean
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: commands
+        type: array
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: stderr
+        type: boolean
+      - in: query
+        name: stdout
+        type: boolean
+      - in: query
+        name: tty
+        type: boolean
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: commands
+        type: array
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: stderr
+        type: boolean
+      - in: query
+        name: stdout
+        type: boolean
+      - in: query
+        name: tty
+        type: boolean
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: commands
+        type: array
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: stderr
+        type: boolean
+      - in: query
+        name: stdout
+        type: boolean
+      - in: query
+        name: tty
+        type: boolean
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: commands
+        type: array
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: stderr
+        type: boolean
+      - in: query
+        name: stdout
+        type: boolean
+      - in: query
+        name: tty
+        type: boolean
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: commands
+        type: array
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: stderr
+        type: boolean
+      - in: query
+        name: stdout
+        type: boolean
+      - in: query
+        name: tty
+        type: boolean
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: Exec
+      tags:
+      - Kubernetes Api Proxy
+  /api/kubeapiproxy/multiupload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 批量上传到容器
+      parameters:
+      - in: query
+        name: dest_path
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pods
+        required: true
+        type: array
+      - in: query
+        name: dest_path
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pods
+        required: true
+        type: array
+      - in: query
+        name: dest_path
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pods
+        required: true
+        type: array
+      - description: files
+        in: formData
+        name: files
+        required: true
+        type: file
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: MultiUpload
+      tags:
+      - Kubernetes Api Proxy
+  /api/kubeapiproxy/namespace:
+    get:
+      description: 命名空间列表
+      parameters:
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: namespace
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: namespace
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: namespace
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: Namespace
+      tags:
+      - Kubernetes Api Proxy
+  /api/kubeapiproxy/pods:
+    get:
+      description: 命名空间下Pod资源列表
+      parameters:
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pods
+        type: array
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pods
+        type: array
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pods
+        type: array
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pods
+        type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: Pods
+      tags:
+      - Kubernetes Api Proxy
+  /api/kubeapiproxy/terminal:
+    get:
+      description: pod 中容器的终端
+      parameters:
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: shell
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: shell
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: shell
+        type: string
+      - in: query
+        name: container
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - in: query
+        name: shell
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: Container terminal
+      tags:
+      - Kubernetes Api Proxy
+  /api/kubeapiproxy/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 上传到容器
+      parameters:
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: containers
+        type: array
+      - in: query
+        name: dest_path
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: containers
+        type: array
+      - in: query
+        name: dest_path
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: containers
+        type: array
+      - in: query
+        name: dest_path
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: containers
+        type: array
+      - in: query
+        name: dest_path
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - description: files
+        in: formData
+        name: files
+        required: true
+        type: file
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: Upload
+      tags:
+      - Kubernetes Api Proxy
+swagger: "2.0"
