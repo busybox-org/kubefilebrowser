@@ -17,56 +17,61 @@
               background
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="pageSizes"
-              :page-size="pageSize"
+              :current-page="current_page"
+              :page-sizes="page_sizes"
+              :page-size="page_size"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="totalCount">
+              :total="total_count">
           </el-pagination>
         </div>
-        <!-- div style="float: right;width: 300px" class="search-Box">
-          <el-input  :placeholder="$t('keyword_search')" icon="search"  class="search"  v-model="searchKey"/>
-        </div -->
+        <div style="float: right;width: 300px;margin-right: 5px;margin-bottom: 10px;margin-top: -5px" class="search-Box">
+          <el-input  :placeholder="$t('keyword_search')" icon="search"  class="search" suffix-icon="el-icon-search" v-model="search_key"/>
+        </div>
         <el-table
             v-tableDrag
             class="app-table"
             size="medium"
-            :data="tableData"
+            :data="table_data.filter(
+                data => !search_key ||
+                data.pod_name.toLowerCase().includes(search_key.toLowerCase()) ||
+                data.node_name.toLowerCase().includes(search_key.toLowerCase()) ||
+                data.host_ip.toLowerCase().includes(search_key.toLowerCase())
+            )"
             style="width: 100%"
-            :default-sort="{prop: 'PodName', order: 'ascending'}"
+            :default-sort="{prop: 'pod_name', order: 'ascending'}"
           >
-          <el-table-column prop="PodName" :label="$t('pod')" sortable show-overflow-tooltip min-width="400" fixed="left" :sort-orders="['ascending', 'descending']"></el-table-column>
+          <el-table-column prop="pod_name" :label="$t('pod')" sortable show-overflow-tooltip min-width="400" fixed="left" :sort-orders="['ascending', 'descending']"></el-table-column>
           <el-table-column :label="$t('state')" sortable show-overflow-tooltip width="100" :sort-orders="['ascending', 'descending']">
             <template slot-scope="scope">
-              <el-button disabled v-if="scope.row.State === 'Running' || scope.row.State === 'Succeeded'" type="success"
+              <el-button v-if="scope.row.state === 'Running' || scope.row.state === 'Succeeded'" type="success"
                          size="mini" plain round>
-                {{ scope.row.State }}
+                {{ scope.row.state }}
               </el-button>
-              <el-button disabled v-if="scope.row.State !== 'Running' && scope.row.State !== 'Succeeded'" type="warning"
+              <el-button v-if="scope.row.state !== 'Running' && scope.row.State !== 'Succeeded'" type="warning"
                          size="mini" plain round>
-                {{ scope.row.State }}
+                {{ scope.row.state }}
               </el-button>
             </template>
           </el-table-column>
           <el-table-column label="Pod IP"  sortable width="150" :sort-orders="['ascending', 'descending']">
             <template slot-scope="scope">
-              <span v-for="list in scope.row.PodIPs">{{list.ip}}<br></span>
+              <span v-for="list in scope.row.pod_ips">{{list.ip}}<br></span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('node')" sortable width="300" :sort-orders="['ascending', 'descending']">
             <template slot-scope="scope">
-              {{scope.row.NodeName}}<br>
-              {{scope.row.HostIP}}
+              {{scope.row.node_name}}<br>
+              {{scope.row.host_ip}}
             </template>
           </el-table-column>
-          <el-table-column prop="CreateTime" :label="$t('create_time')" sortable fix width="200" :sort-orders="['ascending', 'descending']"></el-table-column>
-          <el-table-column prop="RestartCount" :label="$t('restart_count')" sortable width="100" :sort-orders="['ascending', 'descending']"></el-table-column>
+          <el-table-column prop="create_time" :label="$t('create_time')" sortable fix width="200" :sort-orders="['ascending', 'descending']"></el-table-column>
+          <el-table-column prop="restart_count" :label="$t('restart_count')" sortable width="100" :sort-orders="['ascending', 'descending']"></el-table-column>
           <el-table-column :label="$t('operate')" min-width="150" fixed="right" style="text-align: right" :sort-orders="['ascending', 'descending']">
             <template v-slot:default="{row}">
-              <el-dropdown style="margin-left: 10px" :hide-on-click="false" v-if="row.State === 'Running'">
+              <el-dropdown style="margin-left: 10px" :hide-on-click="false" v-if="row.state === 'Running'">
                 <el-dropdown-menu></el-dropdown-menu>
                 <el-popover placement="left" trigger="hover">
-                  <div v-for="c in row.Containers" :key="c.name">
+                  <div v-for="c in row.containers" :key="c.name">
                     <p style="margin: 0">
                       <el-button @click="openTerminal(row, c)" type="text">{{ c.name }}</el-button>
                     </p>
@@ -77,7 +82,7 @@
                   </el-dropdown-item>
                 </el-popover>
                 <el-popover placement="left" trigger="hover">
-                  <div v-for="c in row.Containers" :key="c.name">
+                  <div v-for="c in row.containers" :key="c.name">
                     <p style="margin: 0">
                       <el-button @click="openFileBrowser(row, c, '/')" type="text">{{ c.name }}</el-button>
                     </p>
@@ -94,7 +99,7 @@
       </div>
     </el-card>
     <el-dialog
-        :visible.sync="dialogTerminalVisible"
+        :visible.sync="dialog_terminal_visible"
         :title="$t('terminal')"
         center
         fullscreen
@@ -111,8 +116,8 @@
         center
         fullscreen
         :title="$t('file_browser')"
-        :visible.sync="dialogFileBrowserVisible"
-        @close="dialogFileBrowserVisible = false">
+        :visible.sync="dialog_file_browser_visible"
+        @close="dialog_file_browser_visible = false">
       <div style="margin-top: -25px;">
         <el-table-header store="">
           <el-dropdown  type="info" class="avatar-container" trigger="click" style="height: 36px; float: right; margin-bottom: 10px;">
@@ -124,7 +129,7 @@
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
-                <span style="display:block;" @click="openFileDialog(globalPath, 'create')">{{ $t('create_file') }}</span>
+                <span style="display:block;" @click="openFileDialog(global_path, 'create')">{{ $t('create_file') }}</span>
               </el-dropdown-item>
               <el-dropdown-item>
                 <span style="display:block;" @click="createDir()">{{ $t('create_dir') }}</span>
@@ -142,13 +147,13 @@
               <el-dropdown-item>
                 <span class="fake-file-btn">
                   {{ $t('upload_file') }}
-                  <input type="file" style="display:block;" v-on:change="uploadFileOrDir($event, globalPath)" name="files" multiple="true">
+                  <input type="file" style="display:block;" v-on:change="uploadFileOrDir($event, global_path)" name="files" multiple="true">
                 </span>
               </el-dropdown-item>
               <el-dropdown-item divided>
                 <span class="fake-file-btn">
                   {{ $t('upload_dir') }}
-                  <input type="file" style="display:block;" v-on:change="uploadFileOrDir($event, globalPath)" name="files" webkitdirectory mozdirectory accept="*/*">
+                  <input type="file" style="display:block;" v-on:change="uploadFileOrDir($event, global_path)" name="files" webkitdirectory mozdirectory accept="*/*">
                 </span>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -162,15 +167,20 @@
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
-                <span style="display:block;" @click="bulkDownload(bulkPath, 'tar')">TAR{{ $t('download') }}</span>
+                <span style="display:block;" @click="bulkDownload(bulk_path, 'tar')">TAR{{ $t('download') }}</span>
               </el-dropdown-item>
               <el-dropdown-item divided>
-                <span style="display:block;" @click="bulkDownload(bulkPath, 'zip')">ZIP{{ $t('download') }}</span>
+                <span style="display:block;" @click="bulkDownload(bulk_path, 'zip')">ZIP{{ $t('download') }}</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <div style="float: right;width: 300px;margin-right: 5px;margin-bottom: 10px; margin-top: -5px" class="search-Box">
+            <el-input  :placeholder="$t('keyword_search')" icon="search"  class="search" suffix-icon="el-icon-search" v-model="search_key"/>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;
           <ul>
-            <li style="float: left; margin-top: 10px; list-style: none;" v-for="(item) in headerPaths">
+            <li style="float: left; margin-top: 10px; list-style: none;" v-for="(item) in header_paths">
               <a style="margin-right: 5px; font-size: 16px" class="el-icon-folder-opened" @click="openFileBrowser(null, null, item.path)">{{item.name}}</a>
             </li>
           </ul>
@@ -181,13 +191,16 @@
         </el-table-header>
         <el-table
             v-tableDrag
-            id="tableData"
+            id="table_data"
             class="app-table"
             border
             style="width: 100%"
             size="100%"
             :cell-style="{padding:'6px 0'}"
-            :data="fileBrowserData"
+            :data="file_browser_data.filter(
+                data => !search_key ||
+                data.Name.toLowerCase().includes(search_key.toLowerCase())
+            )"
             @selection-change="handleSelectionChange"
             :default-sort="{prop: 'Name', order: 'ascending'}">
           <el-table-column type="selection" fixed="left"></el-table-column>
@@ -302,18 +315,18 @@
         :with-header="false"
         width="80%"
         :title="$t('file')"
-        :visible.sync="dialogFileVisible"
-        @close="dialogFileVisible = false">
+        :visible.sync="dialog_file_visible"
+        @close="dialog_file_visible = false">
       <div style="margin-top: -45px">
-        <span style="display:block; float: left;font-size: 25px;margin-top: 20px; margin-left: 12px">{{createForPath}}</span>
-        <el-input v-if="isNewFile" v-model="createName" size="small" style="margin-top: 17px; margin-left: 6px;float: left; width: auto;" autocomplete="off" :placeholder="$t('please_input_name')"></el-input>
+        <span style="display:block; float: left;font-size: 25px;margin-top: 20px; margin-left: 12px">{{create_for_path}}</span>
+        <el-input v-if="is_new_file" v-model="create_name" size="small" style="margin-top: 17px; margin-left: 6px;float: left; width: auto;" autocomplete="off" :placeholder="$t('please_input_name')"></el-input>
         <el-button @click.native="saveFile" style="float: right;margin-right: 12px;margin-top: 12px">{{ $t('enter') }}</el-button>
         <el-input v-model="fileContent" rows="15" type="textarea" style="margin-top: 15px" :placeholder="$t('please_input_content')"></el-input>
         <!--        style="margin-top: 15px;margin-bottom: 60px;padding-bottom: 70px;height: 600px;"-->
         <!--        <quill-editor-->
         <!--            style="margin-top: 15px;height: 100%"-->
         <!--            v-model="fileContent"-->
-        <!--            :options="editorOption">-->
+        <!--            :options="editor_option">-->
         <!--        </quill-editor>-->
       </div>
     </el-dialog>
@@ -356,7 +369,7 @@ import * as search from 'xterm/lib/addons/search/search'
 import 'xterm/lib/addons/fullscreen/fullscreen.css'
 import 'xterm/dist/xterm.css'
 
-const toolbarOptions = [
+const toolbar_options = [
   ["bold", "italic", "underline", "strike"], // 加粗 斜体 下划线 删除线
   ["blockquote", "code-block"], // 引用  代码块
   [{ header: 1 }, { header: 2 }], // 1、2 级标题
@@ -470,40 +483,39 @@ export default {
     return {
       namespace: "",
       namespaces: [],
-      tableData: [],
-      tableDatas: {},
+      table_data: [],
+      table_datas: {},
       pods: [],
-      fileBrowserData: [],
+      file_browser_data: [],
       continue: "",
-      totalCount: 0,
-      pageSizes: [10, 30, 50, 100, 150, 200],
-      pageSize: 10,
-      currentPage: 1,
-      podName: "",
+      total_count: 0,
+      page_sizes: [10, 30, 50, 100, 150, 200],
+      page_size: 10,
+      current_page: 1,
+      pod_name: "",
       container:"",
       path: "",
-      bulkPath: [],
-      globalPath: "",
-      headerPaths: [],
-      dialogTerminalVisible: false,
-      dialogFileBrowserVisible: false,
-      dialogFileVisible: false,
-      wsUrl: "",
-      isFullScreen: false,
-      searchKey: '',
+      bulk_path: [],
+      global_path: "",
+      header_paths: [],
+      dialog_terminal_visible: false,
+      dialog_file_browser_visible: false,
+      dialog_file_visible: false,
+      ws_url: "",
+      search_key: '',
       v: this.visible,
       ws: null,
       term: null,
       thisV: this.visible,
-      createForPath: "",
-      createName: "",
+      create_for_path: "",
+      create_name: "",
       fileContent: "",
-      isNewFile: false,
-      editorOption: {
+      is_new_file: false,
+      editor_option: {
         theme: "snow", // or 'bubble'
         modules: {
           toolbar: {
-            container: toolbarOptions,
+            container: toolbar_options,
           }
         }
       },
@@ -525,66 +537,66 @@ export default {
     // 每页显示的条数
     handleSizeChange(val) {
       // 改变每页显示的条数
-      this.pageSize=val
+      this.page_size=val
       if (this.namespace !== "") {
         // 点击每页显示的条数时，显示第一页
         this.selectedNamespace(this.namespace)
         // 注意：在改变每页显示的条数时，要将页码显示到第一页
-        this.currentPage=1
+        this.current_page=1
       }
     },
     // 显示第几页
     handleCurrentChange(val) {
       // 改变默认的页数
-      this.currentPage=val
-      this.tableData = this.tableDatas[val]
+      this.current_page=val
+      this.table_data = this.table_datas[val]
     },
     selectedNamespace(options) {
       this.pods = []
-      this.tableData = []
+      this.table_data = []
       this.continue = ""
       this.namespace = options
       // 处理第一页
-      GetPods({namespace: options, limit: this.pageSize}).then(async res => {
-        this.totalCount = res.metadata.remainingItemCount
-        this.tableDatas[1] = this.getTableData(res)
-        if (this.totalCount === null || this.totalCount === undefined) {
-          this.totalCount = this.tableDatas[1].length
+      GetPods({namespace: options, limit: this.page_size}).then(async res => {
+        this.total_count = res.metadata.remainingItemCount
+        this.table_datas[1] = this.getTableData(res)
+        if (this.total_count === null || this.total_count === undefined) {
+          this.total_count = this.table_datas[1].length
         } else {
-          this.totalCount += this.pageSize
+          this.total_count += this.page_size
         }
         // 处理剩余页面
-        for (let i = 1; i < Math.ceil(this.totalCount / this.pageSize); i++) {
-          await GetPods({namespace: options, limit: this.pageSize, continue: this.continue}).then(res => {
-            this.tableDatas[i+1] = this.getTableData(res)
+        for (let i = 1; i < Math.ceil(this.total_count / this.page_size); i++) {
+          await GetPods({namespace: options, limit: this.page_size, continue: this.continue}).then(res => {
+            this.table_datas[i+1] = this.getTableData(res)
           })
         }
-        this.tableData = this.tableDatas[1]
+        this.table_data = this.table_datas[1]
       }, err => {
         this.$message.error(err.message)
       })
     },
     getTableData (res) {
       this.continue = res.metadata.continue
-      let tableData = []
+      let table_data = []
       for (const i in res.items) {
         const pod = res.items[i]
         let tr = {
-          Namespace: pod.metadata.namespace,
-          PodName: pod.metadata.name,
-          State: pod.status.phase,
-          OS: pod.metadata.annotations.os,
-          Arch: pod.metadata.annotations.arch,
-          CreateTime: pod.metadata.creationTimestamp,
-          PodIPs: pod.status.podIPs,
-          NodeName: pod.spec.nodeName,
-          HostIP: pod.status.hostIP,
-          Containers: pod.spec.containers,
-          RestartCount: this.getRestartTimes(pod),
+          namespace: pod.metadata.namespace,
+          pod_name: pod.metadata.name,
+          state: pod.status.phase,
+          os: pod.metadata.annotations.os,
+          arch: pod.metadata.annotations.arch,
+          create_time: pod.metadata.creationTimestamp,
+          pod_ips: pod.status.podIPs,
+          node_name: pod.spec.nodeName,
+          host_ip: pod.status.hostIP,
+          containers: pod.spec.containers,
+          restart_count: this.getRestartTimes(pod),
         }
-        tableData.push(tr)
+        table_data.push(tr)
       }
-      return tableData
+      return table_data
     },
     getRestartTimes (row) {
       if (row.status.containerStatuses) {
@@ -597,42 +609,42 @@ export default {
       return 0
     },
     openTerminal(options, container) {
-      let shell = "bash"
+      let shell = "sh"
       if (options.OS === "windows") {
         shell = "cmd"
       }
-      this.dialogTerminalVisible = true
-      this.wsUrl = "ws://"+window.location.host+"/api/kubeapiproxy/terminal?namespace="+this.namespace+"&pod="+options.PodName+"&container="+container.name+"&shell="+shell;
+      this.dialog_terminal_visible = true
+      this.ws_url = "ws://"+window.location.host+"/api/kubeapiproxy/terminal?namespace="+this.namespace+"&pod="+options.pod_name+"&container="+container.name+"&shell="+shell;
     },
     openFileBrowser(options, container, path) {
       if (path === undefined) {
         path = "/"
       }
       if (path === "/" && options !== null) {
-        this.podName = options.PodName
+        this.pod_name = options.pod_name
       }
       if (container != null) {
         this.container = container.name
       }
-      this.headerPaths = []
-      this.globalPath=path
-      this.headerPaths.push(path)
+      this.header_paths = []
+      this.global_path=path
+      this.header_paths.push(path)
       if (path !== undefined) {
         let _p = path.split('/')
         let _pa = ""
-        this.headerPaths = []
+        this.header_paths = []
         _p.forEach((item,index) => {
           if (index === 0) {
             _pa = "/"
             item = "/"
-            this.headerPaths.push({
+            this.header_paths.push({
               name: item,
               path: _pa,
             })
           }
           if (index !== 0 && item !== "") {
             _pa += item + "/"
-            this.headerPaths.push({
+            this.header_paths.push({
               name: item,
               path: _pa,
             })
@@ -640,17 +652,17 @@ export default {
         })
       }
       this.path = path
-      this.fileBrowserData = []
+      this.file_browser_data = []
       FileBrowserList({
         namespace: this.namespace,
-        pod: this.podName,
+        pod: this.pod_name,
         container: this.container,
         path: path,
       }).then(res => {
-        this.dialogFileBrowserVisible = true
-        this.fileBrowserData = []
+        this.dialog_file_browser_visible = true
+        this.file_browser_data = []
         if (res !== undefined) {
-          this.fileBrowserData = res
+          this.file_browser_data = res
         }
       }, err => {
         this.$message.error(err.message)
@@ -658,15 +670,15 @@ export default {
     },
     openFileDialog(path, type) {
       this.fileContent = ""
-      this.dialogFileVisible=true
-      this.createForPath = path
-      this.isNewFile = true
+      this.dialog_file_visible=true
+      this.create_for_path = path
+      this.is_new_file = true
       if (type === "open") {
-        this.isNewFile = false
-        this.createName = ""
+        this.is_new_file = false
+        this.create_name = ""
         FileBrowserOpen({
           namespace: this.namespace,
-          pod: this.podName,
+          pod: this.pod_name,
           container: this.container,
           path: path,
         }).then(res => {
@@ -675,27 +687,27 @@ export default {
             this.fileContent = res
           }
         }, err => {
-          this.dialogFileVisible=false
+          this.dialog_file_visible=false
           this.$message.error(err.message)
         })
       }
     },
     saveFile() {
-      let path = this.createForPath+"/"+this.createName
-      if (this.createName === "") {
-        path = this.createForPath
+      let path = this.create_for_path+"/"+this.create_name
+      if (this.create_name === "") {
+        path = this.create_for_path
       }
       FileBrowserCreateFile(this.fileContent, {
         namespace: this.namespace,
-        pod: this.podName,
+        pod: this.pod_name,
         container: this.container,
         path: path,
       }).then(res => {
         console.log(res)
         if (res !== undefined) {
-          this.dialogFileVisible = false
+          this.dialog_file_visible = false
           this.fileContent = ""
-          this.createName = ""
+          this.create_name = ""
           this.$message.success(res)
           this.openFileBrowser(null, null, this.path)
         }
@@ -714,7 +726,7 @@ export default {
         }
         FileBrowserCreateDir({
           namespace: this.namespace,
-          pod: this.podName,
+          pod: this.pod_name,
           container: this.container,
           path: this.path+"/"+value,
         }).then(res => {
@@ -740,7 +752,7 @@ export default {
         }
         FileBrowserRename({
           namespace: this.namespace,
-          pod: this.podName,
+          pod: this.pod_name,
           container: this.container,
           old_path: this.path+"/"+oldName,
           path: this.path+"/"+value,
@@ -765,7 +777,7 @@ export default {
       }).then(() => {
         FileBrowserRemove({
           namespace: this.namespace,
-          pod: this.podName,
+          pod: this.pod_name,
           container: this.container,
           path: path,
         }).then(res => {
@@ -782,13 +794,13 @@ export default {
       });
     },
     handleSelectionChange(val) {
-      this.bulkPath = []
+      this.bulk_path = []
       val.forEach((item) => {
-        this.bulkPath.push(item.Path)
+        this.bulk_path.push(item.Path)
       })
     },
     download(path, style) {
-      Download({namespace: this.namespace, pod: this.podName, container: this.container, dest_paths: path, style: style}).then(res=>{})
+      Download({namespace: this.namespace, pod: this.pod_name, container: this.container, dest_paths: path, style: style}).then(res=>{})
     },
     bulkDownload(paths, style) {
       if (paths.length === 0) {
@@ -799,7 +811,7 @@ export default {
       paths.forEach(item => {
         path += "&dest_paths="+item
       })
-      Download({namespace: this.namespace, pod: this.podName, container: this.container, dest_paths: path, style: style}).then(res=>{})
+      Download({namespace: this.namespace, pod: this.pod_name, container: this.container, dest_paths: path, style: style}).then(res=>{})
     },
     uploadFileOrDir(e, path) {
       const files = e.target.files;
@@ -814,7 +826,7 @@ export default {
       }
       Upload(formData, {
         namespace:this.namespace,
-        pod:this.podName,
+        pod:this.pod_name,
         containers:this.container,
         dest_path:path},{"Content-Type":"multipart/form-data"}).then((res) => {
           this.openFileBrowser(null, null, path)
@@ -887,7 +899,7 @@ export default {
       this.term.on('resize', this.onWindowResize)
       window.addEventListener('resize', this.onWindowResize)
       this.term.fit() // first resizing
-      this.ws = new WebSocket(this.wsUrl)
+      this.ws = new WebSocket(this.ws_url)
       this.ws.onerror = () => {
         this.$message.error(this.$t('web_socker_connection_failed'))
       }

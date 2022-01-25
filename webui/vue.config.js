@@ -8,7 +8,7 @@ module.exports = {
         },
         proxy: {
             '/api': {
-                target: 'http://172.24.175.30:9999/',
+                target: 'http://172.19.5.115:9999/',
                 changeOrigin: true,
             }
         }
