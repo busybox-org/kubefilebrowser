@@ -561,7 +561,12 @@ export default {
         this.total_count = res.metadata.remainingItemCount
         this.table_datas[1] = this.getTableData(res)
         if (this.total_count === null || this.total_count === undefined) {
-          this.total_count = this.table_datas[1].length
+          this.total_count = 0
+          if (res.metadata.continue === null || res.metadata.continue === undefined) {
+            this.total_count = this.table_datas[1].length
+          }else {
+            this.total_count += this.page_size+1
+          }
         } else {
           this.total_count += this.page_size
         }

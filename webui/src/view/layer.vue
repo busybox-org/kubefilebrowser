@@ -4,7 +4,7 @@
       <div class="header-left">
         <div class="logo">
           <h2>KubernetesFileBrowser</h2>
-          <i class="iconfont icon-kubefilebrowser"></i>
+          <i class="iconfont icon-kubernetes"></i>
         </div>
       </div>
       <div class="header-right">

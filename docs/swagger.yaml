@@ -5,8 +5,7 @@ definitions:
       code:
         example: 0
         type: integer
-      data:
-        type: object
+      data: {}
       message:
         example: 消息
         type: string

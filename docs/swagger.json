@@ -2004,9 +2004,7 @@
                     "type": "integer",
                     "example": 0
                 },
-                "data": {
-                    "type": "object"
-                },
+                "data": {},
                 "message": {
                     "type": "string",
                     "example": "消息"
