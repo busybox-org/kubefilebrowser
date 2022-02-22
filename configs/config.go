@@ -34,7 +34,6 @@ var (
 	Config        Configure
 	RestClient    *kubernetes.Clientset
 	KuBeResConf   *rest.Config
-	MetricsClient metrics.Interface
 	envFile       = kingpin.Flag("env_file", "Load the environment variable file").Default(".envfile").String()
 	rootPath      = kingpin.Flag("root_path", "Save data directory").Default("").String()
 )
@@ -71,11 +70,6 @@ func LoadConfig() {
 		os.Exit(1)
 	}
 	RestClient, err = InitRestClient()
-	if err != nil {
-		fmt.Println(notFoundKubeConfig)
-		os.Exit(1)
-	}
-	MetricsClient, err = InitMetricsClient()
 	if err != nil {
 		fmt.Println(notFoundKubeConfig)
 		os.Exit(1)

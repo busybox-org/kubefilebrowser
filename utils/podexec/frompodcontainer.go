@@ -11,7 +11,7 @@ func (p *PodExec) FromPodContainer(dest []string, style string) error {
 	case "tar":
 		p.Command = append([]string{"tar", "cf", "-"}, dest...)
 	case "zip":
-		p.Command = append([]string{"/kf_tools", "zip"}, dest...)
+		p.Command = append([]string{"/kftools", "zip"}, dest...)
 	default:
 		p.Command = append([]string{"tar", "cf", "-"}, dest...)
 	}

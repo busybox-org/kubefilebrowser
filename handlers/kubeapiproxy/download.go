@@ -75,7 +75,7 @@ func Download(c *gin.Context) {
 		}()
 		err := cp.FromPodContainer(q.DestPaths, q.Style)
 		if err != nil {
-			if strings.Contains(err.Error(), "kf_tools") ||
+			if strings.Contains(err.Error(), "kftools") ||
 				err.Error() == "command terminated with exit code 126" {
 				err = pb.InstallKFTools()
 				if err != nil {

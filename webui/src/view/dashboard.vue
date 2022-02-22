@@ -213,8 +213,11 @@
               :sort-orders="['ascending', 'descending']"
           >
             <template slot-scope="scope">
-              <div class="el-icon-folder"  v-if="scope.row.IsDir" @click="openFileBrowser(null,null, scope.row.Path)">&nbsp;&nbsp;{{scope.row.Name}}</div>
-              <div class="el-icon-files"  v-else @click="openFileDialog(scope.row.Path, 'open')">{{scope.row.Name}}</div>
+              <div class="el-icon-folder" v-if="scope.row.IsDir" @click="openFileBrowser(null,null, scope.row.Path)">&nbsp;&nbsp;{{scope.row.Name}}</div>
+              <div class="el-icon-files" v-else>
+                <span v-if="scope.row.Size > 10240" @click="download(scope.row.Path, 'zip')">{{scope.row.Name}}</span>
+                <span v-else @click="openFileDialog(scope.row.Path, 'open')">{{scope.row.Name}}</span>
+              </div>
             </template>
           </el-table-column>
           <el-table-column
@@ -251,7 +254,8 @@
                 </div>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item v-if="!scope.row.IsDir">
-                    <span class="fake-file-btn" @click="openFileDialog(scope.row.Path, 'open')">{{ $t('change') }}</span>
+                    <span v-if="scope.row.Size > 10240" @click="download(scope.row.Path, 'zip')">{{ $t('download') }}</span>
+                    <span v-else class="fake-file-btn" @click="openFileDialog(scope.row.Path, 'open')">{{ $t('change') }}</span>
                   </el-dropdown-item>
                   <el-dropdown-item>
                     <span class="fake-file-btn" @click="openRenameDialog(scope.row.Name)">{{ $t('rename') }}</span>

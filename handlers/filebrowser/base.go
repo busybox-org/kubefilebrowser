@@ -25,7 +25,7 @@ func (q *Query) fileBrowser() (res []byte, err error) {
 	}
 	res, err = pb.Exec(q.Stdin, q.Command...)
 	if err != nil {
-		if strings.Contains(err.Error(), "kf_tools") ||
+		if strings.Contains(err.Error(), "kftools") ||
 			err.Error() == "command terminated with exit code 126" {
 			err = pb.InstallKFTools()
 			if err != nil {
