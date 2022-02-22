@@ -3,7 +3,6 @@ module github.com/xmapst/kubefilebrowser
 go 1.17
 
 require (
-	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-contrib/gzip v0.0.5
@@ -33,6 +32,7 @@ require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
+	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
 	github.com/alecthomas/units v0.0.0-20211218093645-b94a6e3cc137 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
