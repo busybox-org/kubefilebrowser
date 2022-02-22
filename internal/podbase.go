@@ -85,7 +85,7 @@ func (p *PodBase) InstallKFTools() error {
 	if err != nil {
 		return err
 	}
-	osType, arch := p.OsAndArch(pod.Name)
+	osType, arch := p.OsAndArch(pod.Spec.NodeName)
 	kfToolsPath := fmt.Sprintf("/kftools_%s_%s", osType, arch)
 	if osType == "windows" {
 		kfToolsPath = fmt.Sprintf("/kftools_%s_%s.exe", osType, arch)
