@@ -1,9 +1,9 @@
 package filebrowser
 
 import (
-    "github.com/gin-gonic/gin"
-    "github.com/sirupsen/logrus"
-    "github.com/xmapst/kubefilebrowser/handlers"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"github.com/xmapst/kubefilebrowser/handlers"
 )
 
 // OpenFile

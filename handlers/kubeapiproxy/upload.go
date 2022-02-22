@@ -1,17 +1,17 @@
 package kubeapiproxy
 
 import (
-    "fmt"
-    "github.com/gin-gonic/gin"
-    "github.com/sirupsen/logrus"
-    "github.com/xmapst/kubefilebrowser/configs"
-    "github.com/xmapst/kubefilebrowser/handlers"
-    "github.com/xmapst/kubefilebrowser/internal"
-    "os"
-    "path/filepath"
-    "strings"
-    "sync"
-    "time"
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"github.com/xmapst/kubefilebrowser/configs"
+	"github.com/xmapst/kubefilebrowser/handlers"
+	"github.com/xmapst/kubefilebrowser/internal"
+	"os"
+	"path/filepath"
+	"strings"
+	"sync"
+	"time"
 )
 
 type MultiUploadQuery struct {

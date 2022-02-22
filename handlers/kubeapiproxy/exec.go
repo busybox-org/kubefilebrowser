@@ -1,11 +1,11 @@
 package kubeapiproxy
 
 import (
-    "bytes"
-    "github.com/gin-gonic/gin"
-    "github.com/sirupsen/logrus"
-    "github.com/xmapst/kubefilebrowser/handlers"
-    "github.com/xmapst/kubefilebrowser/internal"
+	"bytes"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"github.com/xmapst/kubefilebrowser/handlers"
+	"github.com/xmapst/kubefilebrowser/internal"
 )
 
 type ExecQuery struct {

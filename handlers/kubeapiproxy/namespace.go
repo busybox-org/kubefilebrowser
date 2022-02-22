@@ -1,12 +1,12 @@
 package kubeapiproxy
 
 import (
-    "context"
-    "github.com/gin-gonic/gin"
-    "github.com/sirupsen/logrus"
-    "github.com/xmapst/kubefilebrowser/configs"
-    "github.com/xmapst/kubefilebrowser/handlers"
-    metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"context"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"github.com/xmapst/kubefilebrowser/configs"
+	"github.com/xmapst/kubefilebrowser/handlers"
+	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 type NamespaceSQuery struct {

@@ -1,10 +1,10 @@
 package filebrowser
 
 import (
-    "fmt"
-    "github.com/gin-gonic/gin"
-    "github.com/sirupsen/logrus"
-    "github.com/xmapst/kubefilebrowser/handlers"
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"github.com/xmapst/kubefilebrowser/handlers"
 )
 
 // Rename

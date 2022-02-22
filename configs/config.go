@@ -30,12 +30,12 @@ type Configure struct {
 }
 
 var (
-	TmpPath       = os.TempDir()
-	Config        Configure
-	RestClient    *kubernetes.Clientset
-	KuBeResConf   *rest.Config
-	envFile       = kingpin.Flag("env_file", "Load the environment variable file").Default(".envfile").String()
-	rootPath      = kingpin.Flag("root_path", "Save data directory").Default("").String()
+	TmpPath     = os.TempDir()
+	Config      Configure
+	RestClient  *kubernetes.Clientset
+	KuBeResConf *rest.Config
+	envFile     = kingpin.Flag("env_file", "Load the environment variable file").Default(".envfile").String()
+	rootPath    = kingpin.Flag("root_path", "Save data directory").Default("").String()
 )
 
 const notFoundKubeConfig = `Missing or incomplete kubernetes configuration info.  Please point to an existing, complete config file:

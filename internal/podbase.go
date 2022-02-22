@@ -36,21 +36,24 @@ func (p *PodBase) PodInfo() (*coreV1.Pod, error) {
 }
 
 func (p *PodBase) OsAndArch(nodeName string) (osType string, arch string) {
-	osType = "linux"
-	arch = "amd64"
 	// get pod system arch and type
 	node, err := configs.RestClient.CoreV1().Nodes().
 		Get(context.TODO(), nodeName, metaV1.GetOptions{})
 	if err == nil {
-		if node.Labels["beta.kubernetes.io/os"] != "" {
-			osType = node.Labels["beta.kubernetes.io/os"]
-		} else if node.Labels["kubernetes.io/os"] != "" {
-			osType = node.Labels["kubernetes.io/os"]
+		var ok bool
+		osType, ok = node.Labels["beta.kubernetes.io/os"]
+		if !ok {
+			osType, ok = node.Labels["kubernetes.io/os"]
+			if !ok {
+				osType = "linux"
+			}
 		}
-		if node.Labels["beta.kubernetes.io/arch"] != "" {
-			arch = node.Labels["beta.kubernetes.io/arch"]
-		} else if node.Labels["kubernetes.io/arch"] != "" {
-			arch = node.Labels["kubernetes.io/arch"]
+		arch, ok = node.Labels["beta.kubernetes.io/arch"]
+		if !ok {
+			arch, ok = node.Labels["kubernetes.io/arch"]
+			if !ok {
+				arch = "amd64"
+			}
 		}
 	}
 	return
@@ -98,7 +101,7 @@ func (p *PodBase) InstallKFTools() error {
 				_ = writer.Close()
 			}
 		}()
-		err := utils.TarKFTools(kfToolsPath, writer)
+		err = utils.TarKFTools(kfToolsPath, writer)
 		if err != nil {
 			logrus.Error(err)
 		}

@@ -1,10 +1,10 @@
 package filebrowser
 
 import (
-    "github.com/gin-gonic/gin"
-    "github.com/sirupsen/logrus"
-    "github.com/xmapst/kubefilebrowser/handlers"
-    "strings"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"github.com/xmapst/kubefilebrowser/handlers"
+	"strings"
 )
 
 // Remove

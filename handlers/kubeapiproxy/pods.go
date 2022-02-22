@@ -1,15 +1,15 @@
 package kubeapiproxy
 
 import (
-    "context"
-    "github.com/gin-gonic/gin"
-    "github.com/sirupsen/logrus"
-    "github.com/xmapst/kubefilebrowser/configs"
-    "github.com/xmapst/kubefilebrowser/handlers"
-    "github.com/xmapst/kubefilebrowser/internal"
-    coreV1 "k8s.io/api/core/v1"
-    metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-    "sync"
+	"context"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"github.com/xmapst/kubefilebrowser/configs"
+	"github.com/xmapst/kubefilebrowser/handlers"
+	"github.com/xmapst/kubefilebrowser/internal"
+	coreV1 "k8s.io/api/core/v1"
+	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sync"
 )
 
 type PodsQuery struct {
