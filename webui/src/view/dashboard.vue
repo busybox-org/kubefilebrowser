@@ -53,20 +53,22 @@
               </el-button>
             </template>
           </el-table-column>
-          <el-table-column label="Pod IP"  sortable width="150" :sort-orders="['ascending', 'descending']">
+          <el-table-column label="Pod IP"  sortable width="110" :sort-orders="['ascending', 'descending']">
             <template slot-scope="scope">
               <span v-for="list in scope.row.pod_ips">{{list.ip}}<br></span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('node')" sortable width="300" :sort-orders="['ascending', 'descending']">
+          <el-table-column :label="$t('node')" sortable width="220" :sort-orders="['ascending', 'descending']">
             <template slot-scope="scope">
               {{scope.row.node_name}}<br>
               {{scope.row.host_ip}}
             </template>
           </el-table-column>
-          <el-table-column prop="create_time" :label="$t('create_time')" sortable fix width="200" :sort-orders="['ascending', 'descending']"></el-table-column>
+          <el-table-column prop="create_time" :label="$t('create_time')" sortable fix width="170" :sort-orders="['ascending', 'descending']"></el-table-column>
           <el-table-column prop="restart_count" :label="$t('restart_count')" sortable width="100" :sort-orders="['ascending', 'descending']"></el-table-column>
-          <el-table-column :label="$t('operate')" min-width="150" fixed="right" style="text-align: right" :sort-orders="['ascending', 'descending']">
+          <el-table-column prop="os" :label="$t('os')" sortable width="100" :sort-orders="['ascending', 'descending']"></el-table-column>
+          <el-table-column prop="arch" :label="$t('arch')" sortable width="120" :sort-orders="['ascending', 'descending']"></el-table-column>
+          <el-table-column :label="$t('operate')" min-width="186" fixed="right" style="text-align: right" :sort-orders="['ascending', 'descending']">
             <template v-slot:default="{row}">
               <el-dropdown style="margin-left: 10px" :hide-on-click="false" v-if="row.state === 'Running'">
                 <el-dropdown-menu></el-dropdown-menu>
@@ -619,7 +621,7 @@ export default {
     },
     openTerminal(options, container) {
       let shell = "sh"
-      if (options.OS === "windows") {
+      if (options.os === "windows") {
         shell = "cmd"
       }
       this.dialog_terminal_visible = true
