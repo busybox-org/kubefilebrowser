@@ -17,7 +17,7 @@ RUN sed -i "s/deb.debian.org/mirrors.aliyun.com/g" /etc/apt/sources.list \
 
 # build code
 RUN go get -u github.com/swaggo/swag/cmd/swag \
-  && swag init \
+  && swag init -g cmd/server/main.go \
   && chmod +x *.sh \
   && ./00-build_lib.sh \
   #&& ./01-build_server.sh \
