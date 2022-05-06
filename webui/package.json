@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "cache-loader": "^4.1.0",
     "codemirror": "^5.59.4",
     "element-ui": "^2.15.1",
     "js-base64": "^3.6.0",
@@ -19,19 +20,19 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "qs": "^6.6.0",
+    "sass": "^1.51.0",
     "v-fit-columns": "^0.2.0",
     "vue": "^2.6.12",
     "vue-i18n": "^8.24.1",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2",
-    "xterm": "3.9.1"
+    "xterm": "^3.14.5"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@vue/cli-plugin-babel": "^3.3.0",
-    "@vue/cli-service": "^4.5.12",
-    "node-sass": "^4.9.0",
+    "@vue/cli-service": "^5.0.4",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.21"
   }
