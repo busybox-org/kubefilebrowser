@@ -49,4 +49,4 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
   && apk add --no-cache openssh jq curl busybox-extras \
   && rm -rf /var/cache/apk/*
 
-ENT
+ENTRYPOINT ["/app/main"]
