@@ -24,13 +24,13 @@ const (
 	maxWriteTimeOut = 5 * time.Minute
 )
 
-// websocket消息
+// WsMessage websocket消息
 type WsMessage struct {
 	MessageType int
 	Data        []byte
 }
 
-// 封装websocket连接
+// WsConnection 封装websocket连接
 type WsConnection struct {
 	wsSocket *websocket.Conn // 底层websocket
 	inChan   chan *WsMessage // 读取队列
@@ -93,14 +93,15 @@ ERROR:
 	wsConn.WsClose()
 }
 
-func (s *WsConnection) WritePing(body []byte) error {
-	return s.wsSocket.WriteMessage(websocket.PingMessage, body)
+func (wsConn *WsConnection) WritePing(body []byte) error {
+	return wsConn.wsSocket.WriteMessage(websocket.PingMessage, body)
 }
 
-func (s *WsConnection) WritePong(body []byte) error {
-	return s.wsSocket.WriteMessage(websocket.PongMessage, body)
+func (wsConn *WsConnection) WritePong(body []byte) error {
+	return wsConn.wsSocket.WriteMessage(websocket.PongMessage, body)
 }
 
+// InitWebsocket 初始化websocket
 /************** 并发安全 API **************/
 func InitWebsocket(resp http.ResponseWriter, req *http.Request) (wsConn *WsConnection, err error) {
 	var (
@@ -132,7 +133,7 @@ func InitWebsocket(resp http.ResponseWriter, req *http.Request) (wsConn *WsConne
 	return
 }
 
-// 发送消息
+// WsWrite 发送消息
 func (wsConn *WsConnection) WsWrite(messageType int, data []byte) (err error) {
 	select {
 	case wsConn.outChan <- &WsMessage{messageType, data}:
@@ -142,7 +143,7 @@ func (wsConn *WsConnection) WsWrite(messageType int, data []byte) (err error) {
 	return
 }
 
-// 读取消息
+// WsRead 读取消息
 func (wsConn *WsConnection) WsRead() (msg *WsMessage, err error) {
 	select {
 	case msg = <-wsConn.inChan:
@@ -153,7 +154,7 @@ func (wsConn *WsConnection) WsRead() (msg *WsMessage, err error) {
 	return
 }
 
-// 关闭连接
+// WsClose 关闭连接
 func (wsConn *WsConnection) WsClose() {
 	_ = wsConn.wsSocket.Close()
 	wsConn.mutex.Lock()
@@ -166,7 +167,7 @@ func (wsConn *WsConnection) WsClose() {
 	return
 }
 
-// 错误检查
+// WsHandleError 错误检查
 func WsHandleError(ws *WsConnection, err error) bool {
 	if err != nil {
 		dt := time.Now().Add(time.Second)
@@ -181,7 +182,7 @@ func WsHandleError(ws *WsConnection, err error) bool {
 	return false
 }
 
-// web终端发来的包
+// XtermMessage web终端发来的包
 type XtermMessage struct {
 	Type  string `json:"type"`  // 类型:resize客户端调整终端, input客户端输入
 	Input string `json:"input"` // msgtype=input情况下使用

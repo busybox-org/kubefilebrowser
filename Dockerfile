@@ -1,6 +1,6 @@
 #docker build --network host --rm --build-arg APP_ROOT=/go/src/kubefilebrowser -t kubefilebrowser:latest -f Dockerfile .
 #0 ----------------------------
-FROM golang:1.17.4
+FROM golang:1.18
 ARG  APP_ROOT
 WORKDIR ${APP_ROOT}
 COPY ./ ${APP_ROOT}
@@ -49,4 +49,4 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
   && apk add --no-cache openssh jq curl busybox-extras \
   && rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["/app/main"]
+ENT
