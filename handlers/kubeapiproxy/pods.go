@@ -29,6 +29,8 @@ type PodsQuery struct {
 // @Param pods query PodsQuery false "pods"
 // @Param field_selector query PodsQuery false "field_selector"
 // @Param label_selector query PodsQuery false "label_selector"
+// @Param limit query PodsQuery false "limit" default(10)
+// @Param continue query PodsQuery false "continue"
 // @Success 200 {object} handlers.JSONResult
 // @Failure 500 {object} handlers.JSONResult
 // @Router /api/kubeapiproxy/pods [get]

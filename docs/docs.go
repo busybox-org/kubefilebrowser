@@ -1529,12 +1529,22 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "name": "continue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "field_selector",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "name": "label_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
                         "in": "query"
                     },
                     {
@@ -1544,12 +1554,22 @@ var doc = `{
                     },
                     {
                         "type": "string",
+                        "name": "continue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "field_selector",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "name": "label_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
                         "in": "query"
                     },
                     {
@@ -1559,12 +1579,72 @@ var doc = `{
                     },
                     {
                         "type": "string",
+                        "name": "continue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "field_selector",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "name": "label_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "continue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "field_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "label_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "continue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "field_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "label_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
                         "in": "query"
                     },
                     {
@@ -1597,6 +1677,74 @@ var doc = `{
                 ],
                 "summary": "Pods",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "name": "continue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "field_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "label_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "pods",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "continue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "field_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "label_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "pods",
+                        "in": "query"
+                    },
                     {
                         "type": "string",
                         "name": "continue",

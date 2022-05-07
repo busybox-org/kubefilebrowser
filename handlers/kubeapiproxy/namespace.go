@@ -13,6 +13,8 @@ type NamespaceSQuery struct {
 	Namespace     string `json:"namespace" form:"namespace"`
 	FieldSelector string `json:"field_selector" form:"field_selector"`
 	LabelSelector string `json:"label_selector" form:"label_selector"`
+    Limit         int64    `json:"limit" form:"limit"`
+    Continue      string   `json:"continue" form:"continue"`
 }
 
 // Namespace
@@ -22,6 +24,8 @@ type NamespaceSQuery struct {
 // @Param namespace query NamespaceSQuery false "namespace"
 // @Param field_selector query NamespaceSQuery false "field_selector"
 // @Param label_selector query NamespaceSQuery false "label_selector"
+// @Param limit query NamespaceSQuery false "limit"
+// @Param continue query NamespaceSQuery false "continue"
 // @Success 200 {object} handlers.JSONResult
 // @Failure 500 {object} handlers.JSONResult
 // @Router /api/kubeapiproxy/namespace [get]
@@ -38,6 +42,8 @@ func Namespace(c *gin.Context) {
 			List(context.TODO(), metaV1.ListOptions{
 				LabelSelector: q.LabelSelector,
 				FieldSelector: q.FieldSelector,
+                Limit:         q.Limit,
+                Continue:      q.Continue,
 			})
 		if err != nil {
 			logrus.Error(err)

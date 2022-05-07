@@ -998,29 +998,77 @@ paths:
       description: 命名空间列表
       parameters:
       - in: query
+        name: continue
+        type: string
+      - in: query
         name: field_selector
         type: string
       - in: query
         name: label_selector
         type: string
+      - in: query
+        name: limit
+        type: integer
       - in: query
         name: namespace
         type: string
       - in: query
+        name: continue
+        type: string
+      - in: query
         name: field_selector
         type: string
       - in: query
         name: label_selector
         type: string
+      - in: query
+        name: limit
+        type: integer
       - in: query
         name: namespace
         type: string
       - in: query
+        name: continue
+        type: string
+      - in: query
         name: field_selector
         type: string
       - in: query
         name: label_selector
         type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
       - in: query
         name: namespace
         type: string
@@ -1040,6 +1088,48 @@ paths:
     get:
       description: 命名空间下Pod资源列表
       parameters:
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pods
+        type: array
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pods
+        type: array
       - in: query
         name: continue
         type: string
