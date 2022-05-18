@@ -20,6 +20,10 @@ export function Download(params) {
     return get('/kubeapiproxy/download', params, null, 'blob')
 }
 
+export function BulkDownload(urlParams) {
+    return get(`/kubeapiproxy/download?${urlParams}`, null, null, 'blob')
+}
+
 export function CTerminal(params) {
     return get('/kubeapiproxy/terminal', params)
 }
