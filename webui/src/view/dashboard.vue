@@ -358,7 +358,7 @@
 </style>
 
 <script>
-import {Download, GetNamespace, GetPods, Upload,} from '../api/kubeapiproxy'
+import {Download, BulkDownload, GetNamespace, GetPods, Upload,} from '../api/kubeapiproxy'
 import {
   FileBrowserCreateDir,
   FileBrowserCreateFile,
@@ -822,7 +822,7 @@ export default {
       paths.forEach(item => {
         path += "&dest_paths="+item
       })
-      Download({namespace: this.namespace, pod: this.pod_name, container: this.container, dest_paths: path, style: style}).then(res=>{})
+      BulkDownload(`namespace=${this.namespace}&pod=${this.pod_name}&container=${this.container}${path}&style=${style}`).then(res=>{})
     },
     uploadFileOrDir(e, path) {
       const files = e.target.files;
