@@ -12,8 +12,8 @@ export function Upload(data, params, headers) {
     return post('/kubeapiproxy/upload', data, params, headers)
 }
 
-export function MultiUpload(data, params, headers) {
-    return post('/kubeapiproxy/multiupload', data, params, headers)
+export function MultiUpload(data, urlParams, headers) {
+    return post(`/kubeapiproxy/multiupload?${urlParams}`, data, null, headers)
 }
 
 export function Download(params) {
