@@ -43,7 +43,7 @@ jobs:
         with:
           context: .
           dockerfile: Dockerfile
-          platforms: linux/arm64,linux/amd64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v6,linux/arm/v7
+          platforms: linux/arm,linux/arm64,linux/amd64,linux/386
           push: true
           tags: |
             xmapst/kubefilebrowser:latest
