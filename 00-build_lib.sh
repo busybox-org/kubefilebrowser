@@ -15,7 +15,6 @@ for i in $archList; do
     echo "!!!!!!ls compilation error, please check the source code!!!!!!"
     exit 1
   fi
-  upx --lzma utils/kftoolsbinary/"$BinaryName"
 done
 
 # windows
@@ -30,7 +29,6 @@ for i in $archList; do
     echo "!!!!!!ls compilation error, please check the source code!!!!!!"
     exit 1
   fi
-  upx --lzma utils/kftoolsbinary/"$BinaryName"
 done
 
 # darwin
@@ -45,5 +43,4 @@ for i in $archList; do
     echo "!!!!!!ls compilation error, please check the source code!!!!!!"
     exit 1
   fi
-  upx --lzma utils/kftoolsbinary/"$BinaryName"
 done

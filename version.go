@@ -6,19 +6,17 @@ import (
 )
 
 var (
-	Version      string
-	GoVersion    string
-	GitUrl       string
-	GitBranch    string
-	GitCommit    string
-	GitLatestTag string
-	BuildTime    string
-	title        = figure.NewFigure("KubeFileBrowser", "doom", true).String()
+	GoVersion string
+	GitUrl    string
+	GitBranch string
+	GitCommit string
+	BuildTime string
+	title     = figure.NewFigure("KubeFileBrowser", "doom", true).String()
 )
 
 func VersionIfo() string {
-	return fmt.Sprintf("Version: %s\nGoVersion: %s\nGitUrl: %s\nGitBranch: %s\nGitCommit: %s\nGitLatestTag: %s\nBuildTime: %s",
-		Version, GoVersion, GitUrl, GitBranch, GitCommit, GitLatestTag, BuildTime)
+	return fmt.Sprintf("GoVersion: %s\nGitUrl: %s\nGitBranch: %s\nGitCommit: %s\nBuildTime: %s",
+		GoVersion, GitUrl, GitBranch, GitCommit, BuildTime)
 }
 
 func PrintHeadInfo() {

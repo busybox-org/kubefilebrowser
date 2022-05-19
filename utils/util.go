@@ -1,15 +1,15 @@
 package utils
 
 import (
-    "bufio"
-    "compress/gzip"
-    "io"
-    "io/ioutil"
-    "os"
-    "path/filepath"
-    "runtime"
-    "strings"
-    "time"
+	"bufio"
+	"compress/gzip"
+	"io"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"runtime"
+	"strings"
+	"time"
 )
 
 func InSliceString(v string, sl []string) bool {
