@@ -19,12 +19,10 @@ func (p *PodExec) FromPodContainer(dest []string, style string) error {
 	var stderr bytes.Buffer
 	p.Stderr = &stderr
 	err := p.Exec()
-	if err != nil {
-		return fmt.Errorf(err.Error(), stderr)
-	}
+
 	if err != nil {
 		if len(stderr.Bytes()) != 0 {
-			return fmt.Errorf("STDERR: " + stderr.String())
+			return fmt.Errorf("STDERR: %s", stderr.String())
 		}
 		return err
 	}

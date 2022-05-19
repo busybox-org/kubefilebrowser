@@ -4,11 +4,12 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"io"
+
 	"github.com/sirupsen/logrus"
 	"github.com/xmapst/kubefilebrowser/configs"
 	"github.com/xmapst/kubefilebrowser/utils"
 	"github.com/xmapst/kubefilebrowser/utils/podexec"
-	"io"
 	coreV1 "k8s.io/api/core/v1"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -117,7 +118,7 @@ func (p *PodBase) InstallKFTools() error {
 		exec.Stderr = &stderr
 		err = exec.Exec()
 		if err != nil {
-			return fmt.Errorf(err.Error(), stderr)
+			return fmt.Errorf("%s(%s)", err.Error(), stderr.String())
 		}
 	}
 	return nil
