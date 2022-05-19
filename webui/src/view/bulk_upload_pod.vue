@@ -135,18 +135,19 @@ export default {
         return
       }
       let pod = this.pod
+      let destPods = "&pods=" + this.pod
       if (pod[0] === "all") {
-        pod = this.pods
+        destPods = ""
+        this.pods.forEach(item => {
+          destPods += "&pods="+item.value
+        })
       }
       const formData = new FormData();
       //追加文件数据
       for (let i = 0; i < files.length; i++) {
         formData.append("files", files[i]);
       }
-      MultiUpload(formData, {
-        namespace:this.namespace,
-        pods:pod,
-        dest_path:this.destPath},{"Content-Type":"multipart/form-data"}).then((res) => {
+      MultiUpload(formData, `namespace=${this.namespace}${destPods}&dest_path=${this.destPath}`,{"Content-Type":"multipart/form-data"}).then((res) => {
         this.$prompt(res, this.$t('tips'), {
           confirmButtonText: this.$t('enter'),
           cancelButtonText: this.$t('cancel'),
