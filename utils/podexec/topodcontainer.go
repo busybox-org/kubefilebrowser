@@ -23,7 +23,7 @@ func (p *PodExec) ToPodContainer(destPath string) error {
 	p.Stderr = &stderr
 	err := p.Exec()
 	if err != nil {
-		return fmt.Errorf(err.Error(), stderr)
+		return fmt.Errorf("%s(%s)", err.Error(), stderr.String())
 	}
 	if len(stderr.Bytes()) != 0 {
 		for _, line := range strings.Split(stderr.String(), "\n") {
