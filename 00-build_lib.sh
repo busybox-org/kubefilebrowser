@@ -17,7 +17,7 @@ for i in ${DistList}; do
   Archs=`echo "${i}"|awk -F/ '{print $2}'`
   # shellcheck disable=SC2170
   # shellcheck disable=SC2252
-  if [ "${Archs}" -ne "386" ] || [ "${Archs}" -ne "amd64" ] || [ "${Archs}" -ne "arm" ] || [ "${Archs}" -ne "arm64" ];then
+  if [ "${Archs}" != "386" ] && [ "${Archs}" != "amd64" ] && [ "${Archs}" != "arm" ] && [ "${Archs}" != "arm64" ];then
     continue
   fi
   echo "Building ${Platforms} ${Archs}..."
