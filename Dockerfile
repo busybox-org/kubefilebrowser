@@ -10,6 +10,7 @@ RUN apt-get update \
 # build code
 RUN go install github.com/swaggo/swag/cmd/swag@latest \
     && swag init -g cmd/server/main.go \
+    && go mod tidy \
     && chmod +x *.sh \
     && ./00-build_lib.sh
 
@@ -18,7 +19,6 @@ RUN GO_VERSION=`go version|awk '{print $3" "$4}'` \
     && GIT_BRANCH=`git rev-parse --abbrev-ref HEAD` \
     && GIT_COMMIT=`git rev-parse HEAD` \
     && BUILD_TIME=`date +"%Y-%m-%d %H:%M:%S %Z"` \
-    && go mod tidy \
     && CGO_ENABLED=0 go build -ldflags \
     "-w -s -X 'github.com/xmapst/kubefilebrowser.GoVersion=${GO_VERSION}' \
     -X 'github.com/xmapst/kubefilebrowser.GitUrl=${GIT_URL}' \

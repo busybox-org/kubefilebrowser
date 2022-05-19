@@ -15,6 +15,11 @@ for i in ${DistList}; do
   # shellcheck disable=SC2006
   # shellcheck disable=SC2034
   Archs=`echo "${i}"|awk -F/ '{print $2}'`
+  # shellcheck disable=SC2170
+  # shellcheck disable=SC2252
+  if [ "${Archs}" -ne "386" ] || [ "${Archs}" -ne "amd64" ] || [ "${Archs}" -ne "arm" ] || [ "${Archs}" -ne "arm64" ];then
+    continue
+  fi
   echo "Building ${Platforms} ${Archs}..."
   # shellcheck disable=SC2027
   BinaryName="kftools_${Platforms}_${Archs}"
