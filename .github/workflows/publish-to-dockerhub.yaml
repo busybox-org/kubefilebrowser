@@ -27,10 +27,8 @@ jobs:
           yarn run build
           cd ..
           sed -i "s/Vue App/KubeFileBrowser/g" static/index.html
-      - name: ShortSHA
-        uses: benjlevesque/short-sha@v1.2
-        with:
-          length: 8
+      - name: Get tag name
+        uses: olegtarasov/get-tag@v2.1
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -49,4 +47,4 @@ jobs:
           push: true
           tags: |
             xmapst/kubefilebrowser:latest
-            xmapst/kubefilebrowser:${{ github.ref }}
+            xmapst/kubefilebrowser:${{ env.GIT_TAG_NAME }}
