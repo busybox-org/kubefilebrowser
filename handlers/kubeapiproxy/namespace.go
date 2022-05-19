@@ -13,8 +13,8 @@ type NamespaceSQuery struct {
 	Namespace     string `json:"namespace" form:"namespace"`
 	FieldSelector string `json:"field_selector" form:"field_selector"`
 	LabelSelector string `json:"label_selector" form:"label_selector"`
-    Limit         int64    `json:"limit" form:"limit"`
-    Continue      string   `json:"continue" form:"continue"`
+	Limit         int64  `json:"limit" form:"limit"`
+	Continue      string `json:"continue" form:"continue"`
 }
 
 // Namespace
@@ -42,8 +42,8 @@ func Namespace(c *gin.Context) {
 			List(context.TODO(), metaV1.ListOptions{
 				LabelSelector: q.LabelSelector,
 				FieldSelector: q.FieldSelector,
-                Limit:         q.Limit,
-                Continue:      q.Continue,
+				Limit:         q.Limit,
+				Continue:      q.Continue,
 			})
 		if err != nil {
 			logrus.Error(err)

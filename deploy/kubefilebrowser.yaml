@@ -1,0 +1,84 @@
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kubefilebrowser
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+      - pods
+      - pods/exec
+      - namespaces
+    verbs:
+      - "*"
+  - apiGroups:
+      - "apps"
+    resources:
+      - deployments
+    verbs:
+      - "*"
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubefilebrowser
+  namespace: default
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubefilebrowser
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubefilebrowser
+subjects:
+  - kind: ServiceAccount
+    name: kubefilebrowser
+    namespace: default
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: kubefilebrowser
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubefilebrowser
+  template:
+    metadata:
+      labels:
+        app: kubefilebrowser
+    spec:
+      serviceAccount: kubefilebrowser
+      containers:
+        - name: kubefilebrowser
+          image: xmapst/kubefilebrowser:latest
+          env:
+            - name: RUN_MODE
+              value: release
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9999
+              protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: kubefilebrowser
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9999
+      targetPort: 9999
+      protocol: TCP
+  selector:
+    app: kubefilebrowser
