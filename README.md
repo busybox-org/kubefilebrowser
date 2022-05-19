@@ -1,18 +1,27 @@
 # kubefileborwser
 
-kubernetes container file browser
+kubernetes container file browser. Is a simple web application that allows you to browse and edit files in a kubernetes container. 
 
-## 启动可选环境变量
+## Parameters
 
-| 名称 | 类型 | 默认值 | 说明 |
-| ---- | ---- | ---- | ---- |
-| RUN_MODE | string | debug | 运行模式 |
-| HTTP_ADDR | string | 0.0.0.0 | 监听地址 |
-| HTTP_PORT | string | 9999 | 监听端口 |
-| IP_WHITE_LIST | []string | * | 访问白名单 |
-| KUBECONFIG | string | ~/.kube/config | k8s连接文件路径 |
++ `RUN_MODE`: run mode, options: `dev`, `prod`
++ `HTTP_ADDR`: listen address, default: `:8080`
++ `HTTP_PORT`: listen port, default: `8080`
++ `IP_WHITE_LIST`: access ip white list, default: `*` (all).
++ `KUBECONFIG`: k8s config file path, default: `$HOME/.kube/config`
 
-+ 部署在k8s内创建使用管理员权限的serviceaccount即可
+## Run In docker
+
+```shell
+docker pull xmapst/kubefilebrowser:latest
+docker run -d --restart=always -p 9999:9999 -e RUN_MODE=debug -v /path/to/kubeconfig:/root/.kube/config xmapst/kubefilebrowser:latest
+```
+
+## Deploy in kubernetes
+
+```bash
+kubectl apply -f deploy/kubefilebrowser.yaml
+```
 
 ## Index.html
 ![kubefilebrowser_index_html](https://raw.githubusercontent.com/xmapst/kubefilebrowser/main/img/index_html.jpg)

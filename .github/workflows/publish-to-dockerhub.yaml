@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  docker:
+  publish-to-dockerhub:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
