@@ -2,10 +2,10 @@ name: PublishToDockerhub
 
 on:
   push:
-    #tags:
-    #  - 'v*'
-    branches:
-      - main
+    tags:
+      - 'v*'
+    #branches:
+    #  - main
 
 jobs:
   publish-to-dockerhub:
