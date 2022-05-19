@@ -1,17 +1,21 @@
 package kubeapiproxy
 
 import (
+	"context"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
-	"github.com/xmapst/kubefilebrowser/configs"
-	"github.com/xmapst/kubefilebrowser/handlers"
-	"github.com/xmapst/kubefilebrowser/internal"
 	"os"
 	"path/filepath"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"github.com/xmapst/kubefilebrowser/configs"
+	"github.com/xmapst/kubefilebrowser/handlers"
+	"github.com/xmapst/kubefilebrowser/internal"
+	coreV1 "k8s.io/api/core/v1"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 type MultiUploadQuery struct {
@@ -160,5 +164,157 @@ func Upload(c *gin.Context) {
 		destPath:  q.DestPath,
 	}
 	res := _copy.toPodContainers(containerSlice)
+	render.SetJson(res)
+}
+
+type UploadPVCQuery struct {
+	Namespace string `json:"namespace" form:"namespace" binding:"required"`
+	Pvc       string `json:"pvc" form:"pvc" binding:"required"`
+}
+
+func UploadPVC(c *gin.Context) {
+	var err error
+	render := handlers.Gin{Context: c}
+	var q UploadPVCQuery
+	if err := c.ShouldBindQuery(&q); err != nil {
+		logrus.Error(err)
+		render.SetError(handlers.CodeErrParam, err)
+		return
+	}
+
+	var newPodName = fmt.Sprintf("tmp-upload-pvc-%v", time.Now().Unix())
+	var newPodNode = ""
+	var containerName = "upload"
+	var containerImange = "busybox"
+	var destVolume = "tmp-upload"
+	var destPath = "/tmp-upload"
+
+	//如果pvc的状态是readOnlyMany，则不允许上传
+	pvc, err := configs.RestClient.CoreV1().PersistentVolumeClaims(q.Namespace).Get(context.TODO(), q.Pvc, v1.GetOptions{})
+	if err != nil {
+		logrus.Error(err)
+		render.SetError(handlers.CodeErrMsg, err)
+		return
+	}
+	if len(pvc.Spec.AccessModes) > 0 && pvc.Spec.AccessModes[0] == coreV1.ReadOnlyMany {
+		err := fmt.Errorf("ReadOnlyMany pvc: Permission denied")
+		logrus.Error(err)
+		render.SetError(handlers.CodeErrMsg, err)
+		return
+	}
+
+	//如果pvc已经挂载，找到挂载节点
+	pods, err := configs.RestClient.CoreV1().Pods(q.Namespace).List(context.TODO(), v1.ListOptions{})
+	if err != nil {
+		logrus.Error(err)
+		render.SetError(handlers.CodeErrMsg, err)
+		return
+	}
+	for _, pod := range pods.Items {
+		for _, v := range pod.Spec.Volumes {
+			if v.PersistentVolumeClaim != nil && v.PersistentVolumeClaim.ClaimName == q.Pvc {
+				newPodNode = pod.Spec.NodeName
+				break
+			}
+		}
+	}
+
+	var srcPath = filepath.Join(configs.TmpPath, fmt.Sprintf("%d", time.Now().UnixNano()))
+	defer func() {
+		_ = os.RemoveAll(srcPath)
+	}()
+
+	if err := render.SaveToTarFile(srcPath); err != nil {
+		logrus.Error(err)
+		render.SetError(handlers.CodeErrMsg, err)
+		return
+	}
+	//创建upload pod
+	newPod := &coreV1.Pod{
+		ObjectMeta: v1.ObjectMeta{
+			Name:      newPodName,
+			Namespace: q.Namespace,
+		},
+		Spec: coreV1.PodSpec{
+			Containers: []coreV1.Container{
+				{
+					Name:            containerName,
+					Image:           containerImange,
+					ImagePullPolicy: coreV1.PullIfNotPresent,
+					TTY:             true,
+					VolumeMounts: []coreV1.VolumeMount{
+						{
+							Name:      destVolume,
+							MountPath: destPath,
+						},
+					},
+				},
+			},
+			Volumes: []coreV1.Volume{
+				{
+					Name: destVolume,
+					VolumeSource: coreV1.VolumeSource{
+						PersistentVolumeClaim: &coreV1.PersistentVolumeClaimVolumeSource{
+							ClaimName: q.Pvc,
+						},
+					},
+				},
+			},
+		},
+	}
+
+	if newPodNode != "" {
+		newPod.Spec.NodeName = newPodNode
+	}
+
+	_, err = configs.RestClient.CoreV1().Pods(q.Namespace).Create(context.TODO(), newPod, v1.CreateOptions{})
+	if err != nil {
+		logrus.Errorf("create upload pod err: %s", err.Error())
+		render.SetError(handlers.CodeErrMsg, err)
+		return
+	}
+
+	// 等待创建pod ready
+	for i := 1; i <= 20; i++ {
+		pb := internal.PodBase{
+			Namespace: q.Namespace,
+			PodName:   newPodName,
+		}
+		res, err := pb.PodInfo()
+		if err != nil {
+			logrus.Error(err)
+			render.SetError(handlers.CodeErrApp, err)
+			return
+		}
+		if res.Status.Phase == coreV1.PodRunning {
+			break
+		} else if i == 20 {
+			err := fmt.Errorf("upload pod status not running: ")
+			logrus.Error(err)
+			errDel := configs.RestClient.CoreV1().Pods(q.Namespace).Delete(context.TODO(), newPodName, v1.DeleteOptions{})
+			if errDel != nil {
+				logrus.Errorf("delete upload pod err: %s", err.Error())
+			}
+			render.SetError(handlers.CodeErrApp, err)
+			return
+		}
+		time.Sleep(3 * time.Second)
+	}
+	// copy
+	_copy := &copyReq{
+		namespace: q.Namespace,
+		pod:       newPodName,
+		srcPath:   srcPath,
+		destPath:  destPath,
+	}
+	res := _copy.toPodContainer(containerName)
+	//pod销毁
+	err = configs.RestClient.CoreV1().Pods(q.Namespace).Delete(context.TODO(), newPodName, v1.DeleteOptions{})
+	if err != nil {
+		logrus.Errorf("delete upload pod err: %s", err.Error())
+		render.SetError(handlers.CodeErrMsg, err)
+		return
+	}
+
 	render.SetJson(res)
 }

@@ -54,6 +54,15 @@ const routes = [
                 },
                 component: _import('bulk_upload_container'),
             },
+            {
+                path: 'bulk_upload_pvc',
+                name: 'bulk_upload_pvc',
+                meta: {
+                    title: i18n.t('bulk_upload_pvc'),
+                    icon: 'el-icon-upload2',
+                },
+                component: _import('bulk_upload_pvc'),
+            },
         ],
     }
 ]

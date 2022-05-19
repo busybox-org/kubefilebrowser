@@ -1,6 +1,7 @@
 export default {
     'add': '添加',
     'pod': 'Pod',
+    'pvc': 'Pvc',
     'restart_count': '重启次数',
     'node': '节点',
     'arch': '处理器架构',
@@ -8,6 +9,7 @@ export default {
     'bulk_download': '批量下载',
     'bulk_upload_container': '批量上传到Container',
     'bulk_upload_pod': '批量上传到Pod',
+    'bulk_upload_pvc': '批量上传到pvc',
     'cannot_empty': '不能为空',
     'cancel': '取消',
     'cancel_all': '全部取消',
@@ -57,6 +59,7 @@ export default {
     'please_select_container': '请选择Container',
     'please_select_namespace': '请选择Namespace',
     'please_select_pod': '请选择Pod',
+    'please_select_pvc': '请选择PVC',
     'please_select_shell': '请选择Shell',
     'prompt_message': '提示信息',
     'ram': '内存',

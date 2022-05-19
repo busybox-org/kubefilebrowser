@@ -8,12 +8,20 @@ export function GetPods(params) {
     return get('/kubeapiproxy/pods', params)
 }
 
+export function GetPvcs(params) {
+    return get('/kubeapiproxy/pvcs', params)
+}
+
 export function Upload(data, params, headers) {
     return post('/kubeapiproxy/upload', data, params, headers)
 }
 
 export function MultiUpload(data, urlParams, headers) {
     return post(`/kubeapiproxy/multiupload?${urlParams}`, data, null, headers)
+}
+
+export function UploadPVC(data, params, headers) {
+    return post('/kubeapiproxy/uploadpvc', data, params, headers)
 }
 
 export function Download(params) {
