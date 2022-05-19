@@ -10,6 +10,8 @@ rules:
       - nodes
       - pods
       - pods/exec
+      - persistentvolumeclaims
+      - persistentvolumes
       - namespaces
     verbs:
       - "*"
