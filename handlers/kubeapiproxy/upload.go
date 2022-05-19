@@ -3,12 +3,7 @@ package kubeapiproxy
 import (
 	"context"
 	"fmt"
-	"os"
-	"path/filepath"
-	"strings"
-	"sync"
-	"time"
-
+	"github.com/avast/retry-go/v4"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/xmapst/kubefilebrowser/configs"
@@ -16,6 +11,11 @@ import (
 	"github.com/xmapst/kubefilebrowser/internal"
 	coreV1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"os"
+	"path/filepath"
+	"strings"
+	"sync"
+	"time"
 )
 
 type MultiUploadQuery struct {
@@ -103,7 +103,7 @@ type UploadQuery struct {
 	DestPath   string   `json:"dest_path" form:"dest_path" binding:"required"`
 }
 
-// Upload
+// UploadPods
 // @Summary Upload
 // @description 上传到容器
 // @Tags Kubernetes Api Proxy
@@ -116,7 +116,7 @@ type UploadQuery struct {
 // @Success 200 {object} handlers.JSONResult
 // @Failure 500 {object} handlers.JSONResult
 // @Router /api/kubeapiproxy/upload [post]
-func Upload(c *gin.Context) {
+func UploadPods(c *gin.Context) {
 	render := handlers.Gin{Context: c}
 	var q UploadQuery
 	if err := c.ShouldBindQuery(&q); err != nil {
@@ -172,23 +172,36 @@ type UploadPVCQuery struct {
 	Pvc       string `json:"pvc" form:"pvc" binding:"required"`
 }
 
+var (
+	newPodNode      = ""
+	containerName   = "upload"
+	containerImange = "busybox"
+	destVolume      = "tmp-upload"
+	destPath        = "/tmp-upload"
+)
+
+// UploadPVC
+// @Summary Upload
+// @description 上传到PVC
+// @Tags Kubernetes Api Proxy
+// @Accept multipart/form-data
+// @Param namespace query UploadQuery true "namespace" default(default)
+// @Param pvc query UploadQuery true "pvc" default(nginx-test-76996486df)
+// @Param files formData file true "files"
+// @Success 200 {object} handlers.JSONResult
+// @Failure 500 {object} handlers.JSONResult
+// @Router /api/kubeapiproxy/upload [post]
 func UploadPVC(c *gin.Context) {
 	var err error
 	render := handlers.Gin{Context: c}
 	var q UploadPVCQuery
-	if err := c.ShouldBindQuery(&q); err != nil {
+	if err = c.ShouldBindQuery(&q); err != nil {
 		logrus.Error(err)
 		render.SetError(handlers.CodeErrParam, err)
 		return
 	}
 
 	var newPodName = fmt.Sprintf("tmp-upload-pvc-%v", time.Now().Unix())
-	var newPodNode = ""
-	var containerName = "upload"
-	var containerImange = "busybox"
-	var destVolume = "tmp-upload"
-	var destPath = "/tmp-upload"
-
 	//如果pvc的状态是readOnlyMany，则不允许上传
 	pvc, err := configs.RestClient.CoreV1().PersistentVolumeClaims(q.Namespace).Get(context.TODO(), q.Pvc, v1.GetOptions{})
 	if err != nil {
@@ -197,7 +210,7 @@ func UploadPVC(c *gin.Context) {
 		return
 	}
 	if len(pvc.Spec.AccessModes) > 0 && pvc.Spec.AccessModes[0] == coreV1.ReadOnlyMany {
-		err := fmt.Errorf("ReadOnlyMany pvc: Permission denied")
+		err = fmt.Errorf("ReadOnlyMany pvc: Permission denied")
 		logrus.Error(err)
 		render.SetError(handlers.CodeErrMsg, err)
 		return
@@ -213,6 +226,10 @@ func UploadPVC(c *gin.Context) {
 	for _, pod := range pods.Items {
 		for _, v := range pod.Spec.Volumes {
 			if v.PersistentVolumeClaim != nil && v.PersistentVolumeClaim.ClaimName == q.Pvc {
+				osType, _ := internal.GetOsAndArch(pod.Spec.NodeName)
+				if osType == "windows" {
+					containerImange = "mcr.microsoft.com/windows/nanoserver"
+				}
 				newPodNode = pod.Spec.NodeName
 				break
 			}
@@ -224,7 +241,7 @@ func UploadPVC(c *gin.Context) {
 		_ = os.RemoveAll(srcPath)
 	}()
 
-	if err := render.SaveToTarFile(srcPath); err != nil {
+	if err = render.SaveToTarFile(srcPath); err != nil {
 		logrus.Error(err)
 		render.SetError(handlers.CodeErrMsg, err)
 		return
@@ -275,30 +292,41 @@ func UploadPVC(c *gin.Context) {
 	}
 
 	// 等待创建pod ready
-	for i := 1; i <= 20; i++ {
-		pb := internal.PodBase{
-			Namespace: q.Namespace,
-			PodName:   newPodName,
-		}
-		res, err := pb.PodInfo()
-		if err != nil {
-			logrus.Error(err)
-			render.SetError(handlers.CodeErrApp, err)
-			return
-		}
-		if res.Status.Phase == coreV1.PodRunning {
-			break
-		} else if i == 20 {
-			err := fmt.Errorf("upload pod status not running: ")
-			logrus.Error(err)
-			errDel := configs.RestClient.CoreV1().Pods(q.Namespace).Delete(context.TODO(), newPodName, v1.DeleteOptions{})
-			if errDel != nil {
-				logrus.Errorf("delete upload pod err: %s", err.Error())
+	err = retry.Do(
+		func() error {
+			pb := internal.PodBase{
+				Namespace: q.Namespace,
+				PodName:   newPodName,
 			}
-			render.SetError(handlers.CodeErrApp, err)
-			return
+			res, err := pb.PodInfo()
+			if err != nil {
+				return err
+			}
+			if res.Status.Phase == coreV1.PodRunning {
+				return nil
+			}
+			return fmt.Errorf("pod not ready")
+		},
+		retry.Attempts(7),
+		retry.DelayType(func(n uint, err error, config *retry.Config) time.Duration {
+			max := time.Duration(n)
+			if max > 8 {
+				max = 8
+			}
+			duration := time.Second * max * max
+			return duration
+		}),
+		retry.MaxDelay(time.Second*60),
+	)
+	if err != nil {
+		err = fmt.Errorf("upload pod status not running: %s", err.Error())
+		logrus.Error(err)
+		errDel := configs.RestClient.CoreV1().Pods(q.Namespace).Delete(context.TODO(), newPodName, v1.DeleteOptions{})
+		if errDel != nil {
+			logrus.Errorf("delete upload pod err: %s", err.Error())
 		}
-		time.Sleep(3 * time.Second)
+		render.SetError(handlers.CodeErrApp, err)
+		return
 	}
 	// copy
 	_copy := &copyReq{

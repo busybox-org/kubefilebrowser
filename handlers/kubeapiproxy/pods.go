@@ -67,12 +67,8 @@ func Pods(c *gin.Context) {
 				if res.Items[k].ObjectMeta.Annotations == nil {
 					res.Items[k].ObjectMeta.Annotations = make(map[string]string)
 				}
-				pb := internal.PodBase{
-					Namespace: q.Namespace,
-					PodName:   v.Name,
-				}
 				res.Items[k].ObjectMeta.Annotations["os"], res.Items[k].ObjectMeta.Annotations["arch"] =
-					pb.OsAndArch(v.Spec.NodeName)
+					internal.GetOsAndArch(v.Spec.NodeName)
 			}(k, v)
 		}
 		wg.Wait()
@@ -97,7 +93,7 @@ func Pods(c *gin.Context) {
 					logrus.Error(err)
 					return
 				}
-				pod.ObjectMeta.Annotations["os"], pod.ObjectMeta.Annotations["arch"] = pb.OsAndArch(pod.Name)
+				pod.ObjectMeta.Annotations["os"], pod.ObjectMeta.Annotations["arch"] = internal.GetOsAndArch(pod.Name)
 				lock.Lock()
 				defer lock.Unlock()
 				res = append(res, pod)
@@ -123,12 +119,8 @@ func Pods(c *gin.Context) {
 			if res.Items[k].ObjectMeta.Annotations == nil {
 				res.Items[k].ObjectMeta.Annotations = make(map[string]string)
 			}
-			pb := internal.PodBase{
-				Namespace: q.Namespace,
-				PodName:   v.Name,
-			}
 			res.Items[k].ObjectMeta.Annotations["os"], res.Items[k].ObjectMeta.Annotations["arch"] =
-				pb.OsAndArch(v.Spec.NodeName)
+				internal.GetOsAndArch(v.Spec.NodeName)
 		}(k, v)
 	}
 	wg.Wait()

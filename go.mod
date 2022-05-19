@@ -3,6 +3,7 @@ module github.com/xmapst/kubefilebrowser
 go 1.18
 
 require (
+	github.com/avast/retry-go/v4 v4.0.5
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-contrib/gzip v0.0.5

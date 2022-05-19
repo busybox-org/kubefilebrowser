@@ -14,11 +14,6 @@ type PvcBase struct {
 }
 
 func (p *PvcBase) PvcInfo() (*coreV1.PersistentVolumeClaim, error) {
-	pvc, err := configs.RestClient.CoreV1().PersistentVolumeClaims(p.Namespace).
+	return configs.RestClient.CoreV1().PersistentVolumeClaims(p.Namespace).
 		Get(context.TODO(), p.PvcName, metaV1.GetOptions{})
-	if err != nil {
-		return nil, err
-	}
-
-	return pvc, nil
 }

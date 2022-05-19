@@ -36,30 +36,6 @@ func (p *PodBase) PodInfo() (*coreV1.Pod, error) {
 	return pod, nil
 }
 
-func (p *PodBase) OsAndArch(nodeName string) (osType string, arch string) {
-	// get pod system arch and type
-	node, err := configs.RestClient.CoreV1().Nodes().
-		Get(context.TODO(), nodeName, metaV1.GetOptions{})
-	if err == nil {
-		var ok bool
-		osType, ok = node.Labels["beta.kubernetes.io/os"]
-		if !ok {
-			osType, ok = node.Labels["kubernetes.io/os"]
-			if !ok {
-				osType = "linux"
-			}
-		}
-		arch, ok = node.Labels["beta.kubernetes.io/arch"]
-		if !ok {
-			arch, ok = node.Labels["kubernetes.io/arch"]
-			if !ok {
-				arch = "amd64"
-			}
-		}
-	}
-	return
-}
-
 func (p *PodBase) Exec(stdin io.Reader, command ...string) ([]byte, error) {
 	var stdout, stderr bytes.Buffer
 	exec := p.NewPodExec()
@@ -86,7 +62,7 @@ func (p *PodBase) InstallKFTools() error {
 	if err != nil {
 		return err
 	}
-	osType, arch := p.OsAndArch(pod.Spec.NodeName)
+	osType, arch := GetOsAndArch(pod.Spec.NodeName)
 	kfToolsPath := fmt.Sprintf("/kftools_%s_%s", osType, arch)
 	if osType == "windows" {
 		kfToolsPath += ".exe"
@@ -122,4 +98,28 @@ func (p *PodBase) InstallKFTools() error {
 		}
 	}
 	return nil
+}
+
+func GetOsAndArch(nodeName string) (osType string, arch string) {
+	// get pod system arch and type
+	node, err := configs.RestClient.CoreV1().Nodes().
+		Get(context.TODO(), nodeName, metaV1.GetOptions{})
+	if err == nil {
+		var ok bool
+		osType, ok = node.Labels["beta.kubernetes.io/os"]
+		if !ok {
+			osType, ok = node.Labels["kubernetes.io/os"]
+			if !ok {
+				osType = "linux"
+			}
+		}
+		arch, ok = node.Labels["beta.kubernetes.io/arch"]
+		if !ok {
+			arch, ok = node.Labels["kubernetes.io/arch"]
+			if !ok {
+				arch = "amd64"
+			}
+		}
+	}
+	return
 }

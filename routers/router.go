@@ -48,7 +48,7 @@ func Router() *gin.Engine {
 			k8sGroup.GET("/namespace", kubeapiproxy.Namespace)
 			k8sGroup.GET("/pods", kubeapiproxy.Pods)
 			k8sGroup.GET("/pvcs", kubeapiproxy.Pvcs)
-			k8sGroup.POST("/upload", kubeapiproxy.Upload)
+			k8sGroup.POST("/upload", kubeapiproxy.UploadPods)
 			k8sGroup.POST("/multiupload", kubeapiproxy.MultiUpload)
 			k8sGroup.POST("/uploadpvc", kubeapiproxy.UploadPVC)
 			k8sGroup.GET("/download", kubeapiproxy.Download)
