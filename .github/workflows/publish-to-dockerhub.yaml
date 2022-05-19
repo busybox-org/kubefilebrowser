@@ -19,12 +19,15 @@ jobs:
           node-version: 16.9.0
       - name: Install Yarn Packages
         run: |
+          docker image prune -a -f
+          sudo -E apt-get -qq autoremove --purge
           cd webui
           yarn install
       - name: Build Webui
         run: |
           cd webui
           yarn run build
+          rm -fr node_modules
           cd ..
           sed -i "s/Vue App/KubeFileBrowser/g" static/index.html
       - name: Get tag name
