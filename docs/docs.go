@@ -1891,6 +1891,167 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/kubeapiproxy/pvcs": {
+            "get": {
+                "description": "命名空间下Pvc资源列表",
+                "tags": [
+                    "Kubernetes Api Proxy"
+                ],
+                "summary": "Pvcs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "continue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "field_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "label_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "pvcs",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "continue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "field_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "label_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "pvcs",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "continue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "field_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "label_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "pvcs",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "continue",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "field_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "label_selector",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "pvcs",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.JSONResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.JSONResult"
+                        }
+                    }
+                }
+            }
+        },
         "/api/kubeapiproxy/terminal": {
             "get": {
                 "description": "pod 中容器的终端",
@@ -2010,7 +2171,7 @@ const docTemplate = `{
         },
         "/api/kubeapiproxy/upload": {
             "post": {
-                "description": "上传到容器",
+                "description": "上传到PVC",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -2019,60 +2180,6 @@ const docTemplate = `{
                 ],
                 "summary": "Upload",
                 "parameters": [
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "name": "containers",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "dest_path",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "name": "namespace",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "name": "pod",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "name": "containers",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "dest_path",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "name": "namespace",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "name": "pod",
-                        "in": "query",
-                        "required": true
-                    },
                     {
                         "type": "array",
                         "items": {

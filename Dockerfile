@@ -5,16 +5,11 @@ COPY . /go/src/kubefilebrowser
 ENV PATH=$GOPATH/bin:$PATH
 
 RUN apt-get update \
-    && apt-get install musl-dev git -y
+    && apt-get install upx musl-dev git -y
 
 # build code
-RUN go install github.com/swaggo/swag/cmd/swag@latest \
-    && swag init -g cmd/server/main.go \
-    && go mod tidy \
-    && chmod +x *.sh \
-    && ./00-build_lib.sh
-
-RUN GO_VERSION=`go version|awk '{print $3" "$4}'` \
+RUN go mod tidy \
+    && GO_VERSION=`go version|awk '{print $3" "$4}'` \
     && GIT_URL=`git remote -v|grep push|awk '{print $2}'` \
     && GIT_BRANCH=`git rev-parse --abbrev-ref HEAD` \
     && GIT_COMMIT=`git rev-parse HEAD` \
@@ -24,11 +19,12 @@ RUN GO_VERSION=`go version|awk '{print $3" "$4}'` \
     -X 'github.com/xmapst/kubefilebrowser.GitUrl=${GIT_URL}' \
     -X 'github.com/xmapst/kubefilebrowser.GitBranch=${GIT_BRANCH}' \
     -X 'github.com/xmapst/kubefilebrowser.GitCommit=${GIT_COMMIT}' \
-    -X 'github.com/xmapst/kubefilebrowser.BuildTime=${BUILD_TIME}'" -o main cmd/server/main.go
+    -X 'github.com/xmapst/kubefilebrowser.BuildTime=${BUILD_TIME}'" -o main cmd/server/main.go \
+    && strip --strip-unneeded main \
+    && upx --lzma main
 
 #1 ----------------------------
 FROM alpine:latest
 COPY --from=builder --chmod=0777 /go/src/kubefilebrowser/main /usr/local/bin/kubefilebrowser
-RUN apk add --no-cache ca-certificates mailcap openssh jq curl busybox-extras
-
+EXPOSE 9999
 ENTRYPOINT ["/usr/local/bin/kubefilebrowser"]

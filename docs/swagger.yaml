@@ -1226,6 +1226,106 @@ paths:
       summary: Pods
       tags:
       - Kubernetes Api Proxy
+  /api/kubeapiproxy/pvcs:
+    get:
+      description: 命名空间下Pvc资源列表
+      parameters:
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pvcs
+        type: array
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pvcs
+        type: array
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pvcs
+        type: array
+      - in: query
+        name: continue
+        type: string
+      - in: query
+        name: field_selector
+        type: string
+      - in: query
+        name: label_selector
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: namespace
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: pvcs
+        type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: Pvcs
+      tags:
+      - Kubernetes Api Proxy
   /api/kubeapiproxy/terminal:
     get:
       description: pod 中容器的终端
@@ -1306,44 +1406,8 @@ paths:
     post:
       consumes:
       - multipart/form-data
-      description: 上传到容器
+      description: 上传到PVC
       parameters:
-      - collectionFormat: multi
-        in: query
-        items:
-          type: string
-        name: containers
-        type: array
-      - in: query
-        name: dest_path
-        required: true
-        type: string
-      - in: query
-        name: namespace
-        required: true
-        type: string
-      - in: query
-        name: pod
-        required: true
-        type: string
-      - collectionFormat: multi
-        in: query
-        items:
-          type: string
-        name: containers
-        type: array
-      - in: query
-        name: dest_path
-        required: true
-        type: string
-      - in: query
-        name: namespace
-        required: true
-        type: string
-      - in: query
-        name: pod
-        required: true
-        type: string
       - collectionFormat: multi
         in: query
         items:
