@@ -8,7 +8,9 @@ RUN apt-get update \
     && apt-get install upx musl-dev git -y
 
 # build code
-RUN go mod tidy \
+RUN go install github.com/swaggo/swag/cmd/swag@latest \
+    && swag init -g cmd/server/main.go \
+    && go mod tidy \
     && GO_VERSION=`go version|awk '{print $3" "$4}'` \
     && GIT_URL=`git remote -v|grep push|awk '{print $2}'` \
     && GIT_BRANCH=`git rev-parse --abbrev-ref HEAD` \
