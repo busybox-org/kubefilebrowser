@@ -21,9 +21,7 @@ RUN go install github.com/swaggo/swag/cmd/swag@latest \
     -X 'github.com/xmapst/kubefilebrowser.GitUrl=${GIT_URL}' \
     -X 'github.com/xmapst/kubefilebrowser.GitBranch=${GIT_BRANCH}' \
     -X 'github.com/xmapst/kubefilebrowser.GitCommit=${GIT_COMMIT}' \
-    -X 'github.com/xmapst/kubefilebrowser.BuildTime=${BUILD_TIME}'" -o main cmd/server/main.go \
-    && strip --strip-unneeded main \
-    && upx --lzma main
+    -X 'github.com/xmapst/kubefilebrowser.BuildTime=${BUILD_TIME}'" -o main cmd/server/main.go
 
 #1 ----------------------------
 FROM alpine:latest
