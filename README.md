@@ -5,7 +5,7 @@ kubernetes container file browser. Is a simple web application that allows you t
 ## Parameters
 
 + `RUN_MODE`: run mode, options: `dev`, `prod`
-+ `HTTP_ADDR`: listen address, default: `:8080`
++ `HTTP_ADDR`: listen address, default: `0.0.0.0`
 + `HTTP_PORT`: listen port, default: `8080`
 + `IP_WHITE_LIST`: access ip white list, default: `*` (all).
 + `KUBECONFIG`: k8s config file path, default: `$HOME/.kube/config`
