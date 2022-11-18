@@ -6,7 +6,7 @@ require (
 	github.com/avast/retry-go/v4 v4.3.1
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/gin-contrib/cors v1.4.0
-	github.com/gin-contrib/gzip v0.0.5
+	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-contrib/pprof v1.3.0
 	github.com/gin-gonic/gin v1.8.1
 	github.com/gorilla/websocket v1.5.0
@@ -19,8 +19,8 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.4.0
-	github.com/swaggo/files v0.0.0-20210815190702-a29dd2bc99b2
-	github.com/swaggo/gin-swagger v1.4.3
+	github.com/swaggo/files v0.0.0-20220728132757-551d4a08d97a
+	github.com/swaggo/gin-swagger v1.5.3
 	github.com/swaggo/swag v1.8.2
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	k8s.io/api v0.25.4
