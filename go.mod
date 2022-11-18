@@ -17,7 +17,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/penglongli/gin-metrics v0.1.10
 	github.com/satori/go.uuid v1.2.0
-	github.com/sirupsen/logrus v1.8.1
+	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.4.0
 	github.com/swaggo/files v0.0.0-20210815190702-a29dd2bc99b2
 	github.com/swaggo/gin-swagger v1.4.3
