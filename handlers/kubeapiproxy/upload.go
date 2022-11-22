@@ -3,6 +3,12 @@ package kubeapiproxy
 import (
 	"context"
 	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+	"sync"
+	"time"
+
 	"github.com/avast/retry-go/v4"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -11,11 +17,6 @@ import (
 	"github.com/xmapst/kubefilebrowser/internal"
 	coreV1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"os"
-	"path/filepath"
-	"strings"
-	"sync"
-	"time"
 )
 
 type MultiUploadQuery struct {
@@ -190,7 +191,7 @@ var (
 // @Param files formData file true "files"
 // @Success 200 {object} handlers.JSONResult
 // @Failure 500 {object} handlers.JSONResult
-// @Router /api/kubeapiproxy/upload [post]
+// @Router /api/kubeapiproxy/uploadpvc [post]
 func UploadPVC(c *gin.Context) {
 	var err error
 	render := handlers.Gin{Context: c}

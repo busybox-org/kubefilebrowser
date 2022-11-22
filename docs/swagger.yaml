@@ -1406,6 +1406,101 @@ paths:
     post:
       consumes:
       - multipart/form-data
+      description: 上传到容器
+      parameters:
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: containers
+        type: array
+      - in: query
+        name: dest_path
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: containers
+        type: array
+      - in: query
+        name: dest_path
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: containers
+        type: array
+      - in: query
+        name: dest_path
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: containers
+        type: array
+      - in: query
+        name: dest_path
+        required: true
+        type: string
+      - in: query
+        name: namespace
+        required: true
+        type: string
+      - in: query
+        name: pod
+        required: true
+        type: string
+      - description: files
+        in: formData
+        name: files
+        required: true
+        type: file
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.JSONResult'
+      summary: Upload
+      tags:
+      - Kubernetes Api Proxy
+  /api/kubeapiproxy/uploadpvc:
+    post:
+      consumes:
+      - multipart/form-data
       description: 上传到PVC
       parameters:
       - collectionFormat: multi
