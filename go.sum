@@ -365,8 +365,8 @@ github.com/swaggo/files v1.0.1/go.mod h1:0qXmMNH6sXNf+73t65aKeB+ApmgxdnkQzVTAj2u
 github.com/swaggo/gin-swagger v1.5.3 h1:8mWmHLolIbrhJJTflsaFoZzRBYVmEE7JZGIq08EiC0Q=
 github.com/swaggo/gin-swagger v1.5.3/go.mod h1:3XJKSfHjDMB5dBo/0rrTXidPmgLeqsX89Yp4uA50HpI=
 github.com/swaggo/swag v1.8.1/go.mod h1:ugemnJsPZm/kRwFUnzBlbHRd0JY9zE1M4F+uy2pAaPQ=
-github.com/swaggo/swag v1.8.10 h1:eExW4bFa52WOjqRzRD58bgWsWfdFJso50lpbeTcmTfo=
-github.com/swaggo/swag v1.8.10/go.mod h1:ezQVUUhly8dludpVk+/PuwJWvLLanB13ygV5Pr9enSk=
+github.com/swaggo/swag v1.8.11 h1:Fp1dNNtDvbCf+8kvehZbHQnlF6AxHGjmw6H/xAMrZfY=
+github.com/swaggo/swag v1.8.11/go.mod h1:2GXgpNI9iy5OdsYWu8zXfRAGnOAPxYxTWTyM0XOTYZQ=
 github.com/twitchyliquid64/golang-asm v0.15.1 h1:SU5vSMR7hnwNxj24w34ZyCi/FmDZTkS4MhqMhdFk5YI=
 github.com/twitchyliquid64/golang-asm v0.15.1/go.mod h1:a1lVb/DtPvCB8fslRZhAngC2+aY1QWCk3Cedj/Gdt08=
 github.com/ugorji/go v1.1.7/go.mod h1:kZn38zHttfInRq0xu/PH0az30d+z6vm202qpg1oXVMw=
