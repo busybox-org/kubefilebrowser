@@ -10,7 +10,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/xmapst/kubefilebrowser/utils"
 	"gopkg.in/alecthomas/kingpin.v2"
-	"io/ioutil"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
@@ -83,9 +82,9 @@ func kConfig() (conf *rest.Config, err error) {
 		var kubeConfig = filepath.Join(home, ".kube", "config")
 		var kuBeConf []byte
 		if utils.FileOrPathExist(kubeConfigEnv) {
-			kuBeConf, err = ioutil.ReadFile(kubeConfigEnv)
+			kuBeConf, err = os.ReadFile(kubeConfigEnv)
 		} else if utils.FileOrPathExist(kubeConfig) {
-			kuBeConf, err = ioutil.ReadFile(kubeConfig)
+			kuBeConf, err = os.ReadFile(kubeConfig)
 		}
 		if err != nil {
 			return nil, err

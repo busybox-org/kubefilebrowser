@@ -13,7 +13,7 @@ var staticFS embed.FS
 
 const fsBase = "static"
 
-//StaticFile 使用go.16新的特性embed 到包前端编译后的代码. 替代nginx.   one binary rules them all
+// StaticFile 使用go.16新的特性embed 到包前端编译后的代码. 替代nginx.   one binary rules them all
 func StaticFile(urlPrefix string) gin.HandlerFunc {
 	const indexHtml = "index.html"
 	return func(c *gin.Context) {

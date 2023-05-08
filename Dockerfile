@@ -1,4 +1,4 @@
-FROM golang:1.18 as builder
+FROM golang:latest as builder
 WORKDIR /go/src/kubefilebrowser
 COPY . /go/src/kubefilebrowser
 

@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"compress/gzip"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -99,7 +98,7 @@ func InsertStringToFile(path, str string, index int) error {
 		fileContent += "\n"
 	}
 
-	return ioutil.WriteFile(path, []byte(fileContent), 0644)
+	return os.WriteFile(path, []byte(fileContent), 0644)
 }
 
 // ToLinuxPath windows 路径转Linux格式路径

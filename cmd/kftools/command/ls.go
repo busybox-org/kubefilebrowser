@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	"io/ioutil"
+	"io/fs"
 	"os"
 	"strings"
 	"time"
@@ -42,7 +42,19 @@ var lsCmd = &cobra.Command{
 		} else {
 			path = args[0]
 		}
-		dir, err := ioutil.ReadDir(path)
+		entries, err := os.ReadDir(path)
+		if err != nil {
+			_, _ = fmt.Fprint(os.Stderr, err)
+			os.Exit(253)
+		}
+		infos := make([]fs.FileInfo, 0, len(entries))
+		for _, entry := range entries {
+			info, err := entry.Info()
+			if err != nil {
+				continue
+			}
+			infos = append(infos, info)
+		}
 		if err != nil {
 			_, _ = fmt.Fprint(os.Stderr, err)
 			os.Exit(253)
@@ -50,7 +62,7 @@ var lsCmd = &cobra.Command{
 		path = strings.Replace(path, "\\", "/", -1)
 		path = strings.TrimRight(path, "/")
 		var files []File
-		for _, d := range dir {
+		for _, d := range infos {
 			p := fmt.Sprintf("%s/%s", path, d.Name())
 			if inSlice(p, denyFileOrList) {
 				continue
