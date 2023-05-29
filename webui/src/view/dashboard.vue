@@ -811,7 +811,9 @@ export default {
       })
     },
     download(path, style) {
-      Download({namespace: this.namespace, pod: this.pod_name, container: this.container, dest_paths: path, style: style}).then(res=>{})
+      const exportUrl = `/api/kubeapiproxy/download?namespace=${this.namespace}&pod=${this.pod_name}&container=${this.container}&dest_paths=${path}&style=${style}`
+      window.open(exportUrl, '_blank');
+      // Download({namespace: this.namespace, pod: this.pod_name, container: this.container, dest_paths: path, style: style}).then(res=>{})
     },
     bulkDownload(paths, style) {
       if (paths.length === 0) {
@@ -822,7 +824,9 @@ export default {
       paths.forEach(item => {
         path += "&dest_paths="+item
       })
-      BulkDownload(`namespace=${this.namespace}&pod=${this.pod_name}&container=${this.container}${path}&style=${style}`).then(res=>{})
+      const exportUrl = `/api/kubeapiproxy/download?namespace=${this.namespace}&pod=${this.pod_name}&container=${this.container}${path}&style=${style}`
+      window.open(exportUrl, '_blank');
+      // BulkDownload(`namespace=${this.namespace}&pod=${this.pod_name}&container=${this.container}${path}&style=${style}`).then(res=>{})
     },
     uploadFileOrDir(e, path) {
       const files = e.target.files;

@@ -47,9 +47,9 @@ for i in ${DistList}; do
   fi
   echo "Building ${Platforms} ${Archs}..."
   # shellcheck disable=SC2027
-  BinaryName="kftools_${Platforms}_${Archs}"
+  BinaryName="kubefilebrowser_${Platforms}_${Archs}"
   if [ "${Platforms}" == "windows" ];then
-    BinaryName="kftools_${Platforms}_${Archs}.exe"
+    BinaryName="kubefilebrowser_${Platforms}_${Archs}.exe"
   fi
   CGO_ENABLED=0 GOOS=${Platforms} GOARCH=${Archs} go build -a -ldflags "${LDFLAGS}" -o "${BinaryName}" cmd/server/main.go
   # shellcheck disable=SC2181
