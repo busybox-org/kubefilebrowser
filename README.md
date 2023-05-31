@@ -1,4 +1,5 @@
 # kubefileborwser
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxmapst%2Fkubefilebrowser.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxmapst%2Fkubefilebrowser?ref=badge_shield)
 
 kubernetes container file browser. Is a simple web application that allows you to browse and edit files in a kubernetes container. 
 
@@ -25,7 +26,6 @@ kubectl apply -f deploy/kubefilebrowser.yaml
 
 ## Index.html
 ![kubefilebrowser_index_html](https://raw.githubusercontent.com/xmapst/kubefilebrowser/main/img/index_html.jpg)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxmapst%2Fkubefilebrowser.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxmapst%2Fkubefilebrowser?ref=badge_shield)
 
 ## file_browser
 ![kubefilebrowser](https://raw.githubusercontent.com/xmapst/kubefilebrowser/main/img/file_browser.jpg)
