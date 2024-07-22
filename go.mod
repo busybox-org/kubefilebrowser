@@ -24,7 +24,7 @@ require (
 	github.com/swaggo/swag v1.16.3
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	k8s.io/api v0.30.2
-	k8s.io/apimachinery v0.30.2
+	k8s.io/apimachinery v0.30.3
 	k8s.io/client-go v0.30.2
 	k8s.io/metrics v0.30.2
 )
