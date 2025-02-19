@@ -16,7 +16,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/mattn/go-runewidth v0.0.16
 	github.com/mitchellh/go-homedir v1.1.0
-	github.com/penglongli/gin-metrics v0.1.12
+	github.com/penglongli/gin-metrics v0.1.13
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.8.1
 	github.com/swaggo/files v1.0.1
