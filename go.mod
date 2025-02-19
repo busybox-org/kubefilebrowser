@@ -16,16 +16,16 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/mattn/go-runewidth v0.0.16
 	github.com/mitchellh/go-homedir v1.1.0
-	github.com/penglongli/gin-metrics v0.1.12
+	github.com/penglongli/gin-metrics v0.1.13
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.8.1
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.4
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
-	k8s.io/api v0.32.0
+	k8s.io/api v0.32.2
 	k8s.io/apimachinery v0.32.2
-	k8s.io/client-go v0.32.0
+	k8s.io/client-go v0.32.2
 	k8s.io/metrics v0.32.0
 )
 
