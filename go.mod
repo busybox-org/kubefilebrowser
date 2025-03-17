@@ -1,6 +1,7 @@
 module github.com/xmapst/kubefilebrowser
 
 go 1.20
+toolchain go1.24.1
 
 require (
 	github.com/avast/retry-go/v4 v4.6.1
@@ -24,7 +25,7 @@ require (
 	github.com/swaggo/swag v1.16.4
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	k8s.io/api v0.32.2
-	k8s.io/apimachinery v0.32.2
+	k8s.io/apimachinery v0.32.3
 	k8s.io/client-go v0.32.2
 	k8s.io/metrics v0.32.2
 )
